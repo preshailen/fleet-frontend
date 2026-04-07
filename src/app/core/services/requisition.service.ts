@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Index } from '../models/index.model';
-import { Requisition, RequisitionModel } from '../models/requisition/requisition.model';
+import { Requisition } from '../models/requisition/requisition.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RequisitionService {
-  private apiUrl = 'http://localhost:5000/api/requisition';
+  private apiUrl = `${environment.apiUrl}/api/requisition`;
   private http = inject(HttpClient);
 
   getRequisitions(params: any): Observable<any[]> {

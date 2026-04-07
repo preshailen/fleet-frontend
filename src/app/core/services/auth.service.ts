@@ -2,17 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { User } from '../models/user.model';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/api/auth';
+  private apiUrl = `${environment.apiUrl}/api/auth`;
 
   private accessToken = signal<string | null>(null);
   private currentUser = signal<User | null>(null);
   private http = inject(HttpClient);
-
+  
   register(model: any) {
     return this.http.post<any>(`${this.apiUrl}/register`, { model });
   }
