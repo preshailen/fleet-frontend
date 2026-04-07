@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card>
+      <h3>Create Requisition</h3>
+      <hr />
+      <ng-wizard class="rsWizardMainOverride" [config]="config" (stepChanged)="stepChanged($event)">
+        <ng-wizard-step [title]="'1'" [description]="'Basic Details'" >
+          <app-basic-details [basicDetailsForm]="requisitionForm.basicDetails" [validationForm]="requisitionForm.basicDetails()" (goForward)="next()" (setEmail)="changeEmail($event)"></app-basic-details>
+        </ng-wizard-step>
+
+        <ng-wizard-step [title]="'2'" [description]="'Purpose'" >
+          <app-purpose [purposeForm]="requisitionForm.purpose" [validationForm]="requisitionForm.purpose()" (goBack)="previous()" (goForward)="next()"></app-purpose>
+        </ng-wizard-step>
+
+        <ng-wizard-step [title]="'3'" [description]="'Type of Agreement'">
+          <app-type-of-agreement [agreementForm]="requisitionForm.typeOfAgreement" [validationForm]="requisitionForm.typeOfAgreement()" (goBack)="previous()" (goForward)="next()"></app-type-of-agreement>
+        </ng-wizard-step>
+
+        <ng-wizard-step [title]="'4'" [description]="'Vehicle Specifications'">
+          <app-specifications [specificationForm]="requisitionForm.specifications" [validationForm]="requisitionForm.specifications()"  (goBack)="previous()" (goForward)="next()"></app-specifications>
+        </ng-wizard-step>
+
+        <ng-wizard-step [title]="'5'" [description]="'Operational Requirements'">
+          <app-operational-requirements [requirementsForm]="requisitionForm.requirements" [validationForm]="requisitionForm.requirements()"  (goBack)="previous()" (goForward)="next()"></app-operational-requirements>
+        </ng-wizard-step>
+
+        <ng-wizard-step [title]="'6'" [description]="'Financial Information'">
+          <app-financial-information [financialForm]="requisitionForm.financialInfo" [validationForm]="requisitionForm.financialInfo()"  (goBack)="previous()" (goForward)="next()"></app-financial-information>
+        </ng-wizard-step>
+
+        <ng-wizard-step [title]="'7'" [description]="'Compliance and Registration Information'">
+          <app-compliance-information [complianceForm]="requisitionForm.complianceInfo" [validationForm]="requisitionForm.complianceInfo()"  (goBack)="previous()" (finish)="create()"></app-compliance-information>
+        </ng-wizard-step>
+      </ng-wizard>
+    </app-card>
+  </div>
+</div>

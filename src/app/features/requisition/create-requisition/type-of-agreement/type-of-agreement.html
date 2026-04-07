@@ -1,0 +1,53 @@
+<div class="card-body centre-text">
+  <h6><b>Type of Agreement</b></h6>
+  <hr />
+  <form class="p-4">
+    <div class="row">
+      <div class="col-4">
+        <label><b>
+          <input type="radio" value="Finance Lease (outright purchase without maintenance)" [field]="agreementForm().type" />
+          Finance Lease (outright purchase without maintenance)</b>
+        </label>
+      </div>
+      <div class="col-4">
+        <label><b>
+          <input type="radio" value="Finance Lease (outright purchase with maintenance)" [field]="agreementForm().type" />
+          Finance Lease (outright purchase with maintenance)</b>
+        </label>
+      </div>
+      <div class="col-4">
+        <label><b>
+          <input type="radio" value="Operating Lease with maintenance" [field]="agreementForm().type" />
+          Operating Lease with maintenance</b>
+        </label>
+        @if (agreementForm().type().value() === 'Operating Lease with maintenance') {
+          <div class="row-layout p-3 custom-group">
+            <label class="form-label" for="customControlValidation5"><b>Term: </b></label>
+            <div class="input-wrapper">
+              <input class="form-control" type="number" [field]="agreementForm().term" id="customControlValidation5" 
+                     placeholder="Enter Term" [class.is-invalid]="helperService.isInvalid(agreementForm().term, submitted)"
+          [class.is-valid]="helperService.isValid(agreementForm().term, submitted)"/>
+            </div>
+            
+          </div>
+          @if (agreementForm().term().invalid() && (helperService.isFieldTouchedOrSubmitted(agreementForm().term, submitted))) {
+            <div class="full-width">
+              @for (error of agreementForm().term().errors(); track error.kind) {
+                <div class="error">{{ error.message }}</div>
+              }
+            </div>
+          }
+        }
+      </div>
+      @if (agreementForm().type().invalid() && (helperService.isFieldTouchedOrSubmitted(agreementForm().type, submitted))) {
+        <div class="full-width error-fix">
+          @for (error of agreementForm().type().errors(); track error.kind) {
+            <div class="error">{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    
+  </form>
+  <app-button-controls (goBack)="previous()" (goForward)="next()"></app-button-controls>
+</div>

@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card>
+      <h3>View Quotes</h3>
+      <hr />
+      <div class="row">
+        <div class="col-md-12">
+          @if (!id()) {
+            <app-requisition-table [filters]="filters()" [action]="action()" (doActionOutput)="viewQuotes($event)"></app-requisition-table>
+          } @else {
+            @if (this.requisition()) {
+              <app-display-specifications [requisition]="requisition()"></app-display-specifications>
+            }
+            <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <th>Quote</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (quote of quotes(); track quote._id) {
+                    <tr>
+                      <td>{{ quote.fileName }}</td>
+                      <td><button type="button" class="btn btn-warning" (click)="viewQuote(quote.pdfUrl)">View <i class="feather icon-eye"></i></button></td>                    
+                    </tr>
+                  } @empty {
+                    <tr><td colspan="2"><p>No items found</p></td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <div class="button-row">
+              <button type="button" class="btn btn-danger" (click)="cancel()">Cancel <i class="feather icon-x"></i></button>
+              <button type="submit" class="btn btn-success" (click)="setPreferredQuote()">Set preferred quote <i class="feather icon-flag"></i></button>
+            </div>
+          }
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="card-body centre-text">
+  <h6><b>Operational Requirements</b></h6>
+  <hr />
+  <form>
+    <div class="form-group row-layout">
+      <label for="intendedUse" class="form-label">Intended Use:</label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          class="form-control"
+          id="intendedUse"
+          [class.is-invalid]="helperService.isInvalid(requirementsForm().intendedUse, submitted)"
+          [class.is-valid]="helperService.isValid(requirementsForm().intendedUse, submitted)"
+          placeholder="Enter Intended Use"
+          [field]="requirementsForm().intendedUse"
+        />
+      </div>
+      @if (requirementsForm().intendedUse().invalid() && (helperService.isFieldTouchedOrSubmitted(requirementsForm().intendedUse, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of requirementsForm().intendedUse().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="estimatedMonthlyKms" class="form-label">Estimated Monthly Kms:</label>
+      <div class="input-wrapper">
+        <div class="input-group">
+          <input
+            type="number"
+            class="form-control"
+            id="estimatedMonthlyKms"
+            [class.is-invalid]="helperService.isInvalid(requirementsForm().estimatedMonthlyKms, submitted)"
+            [class.is-valid]="helperService.isValid(requirementsForm().estimatedMonthlyKms, submitted)"
+            placeholder="Enter Estimated Monthly Kms"
+            [field]="requirementsForm().estimatedMonthlyKms"
+          />
+          <span class="input-group-text">KMs</span>
+        </div>
+      </div>
+      @if (requirementsForm().estimatedMonthlyKms().invalid() && (helperService.isFieldTouchedOrSubmitted(requirementsForm().estimatedMonthlyKms, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of requirementsForm().estimatedMonthlyKms().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+  </form>
+  <app-button-controls (goBack)="previous()" (goForward)="next()"></app-button-controls>
+</div>

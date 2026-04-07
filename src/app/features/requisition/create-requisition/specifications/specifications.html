@@ -1,0 +1,197 @@
+<div class="card-body centre-text">
+  <h6><b>Vehicle Specifications</b></h6>
+  <hr />
+  <form>
+    <div class="form-group row-layout">
+      <label for="vehicleType" class="form-label">Vehicle Type:</label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          class="form-control"
+          id="vehicleType"
+          [class.is-invalid]="helperService.isInvalid(specificationForm().vehicleType, submitted)"
+          [class.is-valid]="helperService.isValid(specificationForm().vehicleType, submitted)"
+          placeholder="Enter Vehicle Type"
+          [field]="specificationForm().vehicleType"
+        />
+      </div>
+      @if (specificationForm().vehicleType().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().vehicleType, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of specificationForm().vehicleType().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="make" class="form-label">Vehicle Make:</label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          class="form-control"
+          id="make"
+          [class.is-invalid]="helperService.isInvalid(specificationForm().make, submitted)"
+          [class.is-valid]="helperService.isValid(specificationForm().make, submitted)"
+          placeholder="Enter Vehicle Make"
+          [field]="specificationForm().make"
+        />
+      </div>
+      @if (specificationForm().make().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().make, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of specificationForm().make().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="model" class="form-label">Vehicle Model:</label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          class="form-control"
+          id="model"
+          [class.is-invalid]="helperService.isInvalid(specificationForm().model, submitted)"
+          [class.is-valid]="helperService.isValid(specificationForm().model, submitted)"
+          placeholder="Enter Vehicle Model"
+          [field]="specificationForm().model"
+        />
+      </div>
+      @if (specificationForm().model().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().model, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of specificationForm().model().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="engineSize" class="form-label">Engine Size:</label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          class="form-control"
+          id="engineSize"
+          [class.is-invalid]="helperService.isInvalid(specificationForm().engineSize, submitted)"
+          [class.is-valid]="helperService.isValid(specificationForm().engineSize, submitted)"
+          placeholder="Enter Engine Size"
+          [field]="specificationForm().engineSize"
+        />
+      </div>
+      @if (specificationForm().engineSize().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().engineSize, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of specificationForm().engineSize().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="fuelType" class="form-label">Fuel Type:</label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          class="form-control"
+          id="fuelType"
+          [class.is-invalid]="helperService.isInvalid(specificationForm().fuelType, submitted)"
+          [class.is-valid]="helperService.isValid(specificationForm().fuelType, submitted)"
+          placeholder="Enter Fuel Type"
+          [field]="specificationForm().fuelType"
+        />
+      </div>
+      @if (specificationForm().fuelType().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().fuelType, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of specificationForm().fuelType().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="transmission" class="form-label">Transmission:</label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          class="form-control"
+          id="transmission"
+          [class.is-invalid]="helperService.isInvalid(specificationForm().transmission, submitted)"
+          [class.is-valid]="helperService.isValid(specificationForm().transmission, submitted)"
+          placeholder="Enter Transmission"
+          [field]="specificationForm().transmission"
+        />
+      </div>
+      @if (specificationForm().transmission().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().transmission, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of specificationForm().transmission().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="colourPreference" class="form-label">Colour Preference:</label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          class="form-control"
+          id="colourPreference"
+          [class.is-invalid]="helperService.isInvalid(specificationForm().colourPreference, submitted)"
+          [class.is-valid]="helperService.isValid(specificationForm().colourPreference, submitted)"
+          placeholder="Enter Colour Preference"
+          [field]="specificationForm().colourPreference"
+        />
+      </div>
+      @if (specificationForm().colourPreference().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().colourPreference, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of specificationForm().colourPreference().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="accessories" class="form-label">Accessories:</label>
+      <div class="input-wrapper">
+        <ng-select [field]="specificationForm().accessories" id="accessories"
+                   [class.is-invalid]="helperService.isInvalid(specificationForm().accessories, submitted)"
+                   [class.is-valid]="helperService.isValid(specificationForm().accessories, submitted)"
+                   [items]="[]" [multiple]="true"  [addTag]="true" placeholder="Enter Accessories">
+        </ng-select>
+      </div>
+      @if (specificationForm().accessories().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().accessories, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of specificationForm().accessories().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+      @if (lengthError()) {
+        <div class="invalid-feedback full-width">
+            <div>Accessory must be at most 100 characters</div>
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="additionalInfo" class="form-label">Additional Info:</label>
+      <div class="input-wrapper">
+        <textarea
+          type="text"
+          class="form-control"
+          id="additionalInfo"
+          [class.is-invalid]="helperService.isInvalid(specificationForm().additionalInfo, submitted)"
+          [class.is-valid]="helperService.isValid(specificationForm().additionalInfo, submitted)"
+          placeholder="Enter Additional Optional Information"
+          [field]="specificationForm().additionalInfo"
+        ></textarea>
+      </div>
+      @if (specificationForm().additionalInfo().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().additionalInfo, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of specificationForm().additionalInfo().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+  </form>
+  <app-button-controls (goBack)="previous()" (goForward)="next()"></app-button-controls>
+</div>

@@ -1,0 +1,47 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Created Date</th>
+        <th>Fulfilled Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of requisitions(); track item._id) {
+        <tr>
+          <td>{{ item._id }}</td>
+          <td>{{ item.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ item.fulfillmentDate | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td><button class="btn btn-success" [innerHTML]="action()" (click)="doAction(item._id)"></button></td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="4"><p>No items found</p></td>
+        </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">
+          <nav>
+            <ul class="pagination justify-content-center">
+              <li class="page-item" [class.disabled]="pagination().page === 1">
+                <a class="page-link" (click)="prevPage()" style="cursor: pointer;"><span aria-hidden="true">&laquo;</span></a>
+              </li>
+              @for (p of pages(); track p) {
+                <li class="page-item" [class.active]="pagination().page === p">
+                  <a class="page-link" (click)="changePage(p)" style="cursor: pointer;">{{ p }}</a>
+                </li>
+              }     
+              <li class="page-item" [class.disabled]="pagination().page === pagination().pages">
+                <a class="page-link" (click)="nextPage()" style="cursor: pointer;"><span aria-hidden="true">&raquo;</span></a>
+              </li>
+            </ul>
+          </nav>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

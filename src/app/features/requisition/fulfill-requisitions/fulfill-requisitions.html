@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card>
+      <h3>Fulfill Requisition</h3>
+      <hr />
+      <div class="row">
+        <div class="col-md-12">
+          @if (!id()) {
+            <app-requisition-table [filters]="filters()" [action]="action()" (doActionOutput)="fulfill($event)"></app-requisition-table>
+          } @else {
+            @if (this.requisition()) {
+              <app-display-specifications [requisition]="requisition()"></app-display-specifications>
+            }
+            <form (ngSubmit)="onSubmit($event)">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Quote</th>
+                      <th colspan="2">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (quote of filesData().quotes; track quote.id) {
+                      <tr>
+                        <td>
+                          <div class="form-file mb-3">
+                            <input type="file" (blur)="onFileBlur(quote.id)" class="form-control" accept=".pdf,application/pdf" (change)="onFileSelected($event, quote.id)" [ngClass]= "helperService.controlFileSelect(quote)"/>
+                            @if(!quote.file && quote.touched) {
+                              <div class="invalid-feedback">File is required!</div>
+                            }
+                            @if (quote.file && !quote.isPdf) {
+                              <div class="invalid-feedback">File is not a pdf!</div>
+                            }
+                            @if (quote.file && quote.duplicate) {
+                              <div class="invalid-feedback">Duplicate pdfs!</div>
+                            }
+                            @if (quote.file && quote.tooBig) {
+                              <div class="invalid-feedback">File is too big!</div>
+                            }
+                          </div>
+                        </td>
+                        <td><button type="button" class="btn btn-warning" (click)="viewQuote(quote.id)">Preview <i class="feather icon-eye"></i></button></td>
+                        <td><button type="button" class="btn btn-danger" (click)="removeQuote(quote.id)">Remove <i class="feather icon-x"></i></button></td>                      
+                      </tr>
+                    } @empty {
+                      <tr><td colspan="2"><p>No items found</p></td></tr>
+                    }
+                    @if(filesData().quotes.length < 3) {
+                      <tr><td colspan="3"><p class="text-danger">A minimum of 3 quotes are required!</p></td></tr>
+                    }
+                  </tbody>
+                </table>
+                <div class="button">
+                  <button type="button" class="btn btn-success" (click)="addQuote()">Add Quote<i class="feather icon-plus"></i></button>
+                </div>
+              </div>
+              <div class="button-row">
+                <button type="button" class="btn btn-danger"(click)="cancel()">Cancel <i class="feather icon-x"></i></button>
+                <button type="submit" class="btn btn-success">Fulfill Requisition <i class="feather icon-package"></i></button>
+              </div>
+            </form>
+          }
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

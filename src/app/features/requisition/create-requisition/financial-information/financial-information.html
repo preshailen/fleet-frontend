@@ -1,0 +1,76 @@
+<div class="card-body centre-text">
+  <h6><b>Financial Information</b></h6>
+  <hr />
+  <form>
+    <div class="form-group row-layout">
+      <label for="costCentre" class="form-label">Cost Centre:</label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          class="form-control"
+          id="costCentre"
+          [class.is-invalid]="helperService.isInvalid(financialForm().costCentre, submitted)"
+          [class.is-valid]="helperService.isValid(financialForm().costCentre, submitted)"
+          placeholder="Enter Cost Centre"
+          [field]="financialForm().costCentre"
+        />
+      </div>
+      @if (financialForm().costCentre().invalid() && (helperService.isFieldTouchedOrSubmitted(financialForm().costCentre, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of financialForm().costCentre().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="budgetAvailable" class="form-label">Budget Available:</label>
+      <div class="input-wrapper">
+        <div class="input-group">
+          <span class="input-group-text">R</span>
+          <input
+            type="number"
+            class="form-control"
+            id="budgetAvailable"
+            [class.is-invalid]="helperService.isInvalid(financialForm().budgetAvailable, submitted)"
+            [class.is-valid]="helperService.isValid(financialForm().budgetAvailable, submitted)"
+            placeholder="Enter Budget Available"
+            [field]="financialForm().budgetAvailable"
+          />
+        </div>
+      </div>
+      @if (financialForm().budgetAvailable().invalid() && (helperService.isFieldTouchedOrSubmitted(financialForm().budgetAvailable, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of financialForm().budgetAvailable().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group row-layout">
+      <label for="estimatedVehicleCost" class="form-label">Estimated Vehicle Cost:</label>
+      <div class="input-wrapper">
+        <div class="input-group">
+          <span class="input-group-text">R</span>
+          <input
+            type="number"
+            class="form-control"
+            id="estimatedVehicleCost"
+            [class.is-invalid]="helperService.isInvalid(financialForm().estimatedVehicleCost, submitted)"
+            [class.is-valid]="helperService.isValid(financialForm().estimatedVehicleCost, submitted)"
+            placeholder="Enter Estimated Vehicle Cost"
+            [field]="financialForm().estimatedVehicleCost"
+          />
+        </div>
+      </div>
+      @if (financialForm().estimatedVehicleCost().invalid() && (helperService.isFieldTouchedOrSubmitted(financialForm().estimatedVehicleCost, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of financialForm().estimatedVehicleCost().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+  </form>
+  <app-button-controls (goBack)="previous()" (goForward)="next()"></app-button-controls>
+</div>
