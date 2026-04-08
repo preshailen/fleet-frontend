@@ -10,12 +10,13 @@
                 <input
                   type="email"
                   class="form-control"
-                  id="floatingInput"
-                  [class.is-invalid]="submitted() && loginForm.email().invalid()"
+                  id="email"
+                  [class.is-invalid]="helperService.isInvalid(loginForm.email, submitted)"
+                  [class.is-valid]="helperService.isValid(loginForm.email, submitted)"
                   placeholder="Enter Email Address"
                   [field]="loginForm.email"
                 />
-                @if (submitted() && loginForm.email().invalid()) {
+                @if (loginForm.email().invalid() && helperService.isFieldTouchedOrSubmitted(loginForm.email, submitted)) {
                   <div class="invalid-feedback">
                     @for (error of loginForm.email().errors(); track error.kind) {
                       <div>{{ error.message }}</div>
@@ -26,13 +27,14 @@
               <div class="input-group mb-4">
                 <input
                     type="password"
-                    id="password"
                     class="form-control"
-                    [field]="loginForm.password"
-                    [class.is-invalid]="submitted() && loginForm.password().errors().length > 0"
+                    id="password"
+                    [class.is-invalid]="helperService.isInvalid(loginForm.password, submitted)"
+                    [class.is-valid]="helperService.isValid(loginForm.password, submitted)"
                     placeholder="Enter Password"
+                    [field]="loginForm.password"
                   />
-                @if (submitted() && loginForm.password().errors().length > 0) {
+                @if (loginForm.password().invalid() && helperService.isFieldTouchedOrSubmitted(loginForm.password, submitted)) {
                   <div class="invalid-feedback">
                     @for (error of loginForm.password().errors(); track error.kind) {
                       <div>{{ error.message }}</div>
@@ -41,7 +43,7 @@
                 }
               </div>
               <div class="d-grid">
-                <button class="btn btn-block btn-primary mb-4">Login</button>
+                <button class="btn btn-block btn-primary mb-4">Login <i class="feather icon-log-in"></i></button>
               </div>
             </form>
             <p class="mb-0 text-muted">

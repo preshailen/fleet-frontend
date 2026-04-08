@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from '../models/user.model';
 import { environment } from '../../../environments/environment';
+import { LoginModel, RegisterModel } from '../models/auth.model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,12 +15,12 @@ export class AuthService {
   private currentUser = signal<User | null>(null);
   private http = inject(HttpClient);
   
-  register(model: any) {
-    return this.http.post<any>(`${this.apiUrl}/register`, { model });
+  register(model: RegisterModel): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/register`, model);
   }
 
-  login(email: string, password: string) {
-    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }, { withCredentials: true }).pipe(tap(res => {
+  login(model: LoginModel) {
+    return this.http.post<any>(`${this.apiUrl}/login`, model).pipe(tap(res => {
       this.accessToken.set(res.accessToken);
       this.currentUser.set(res.user);
     }));

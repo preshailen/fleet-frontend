@@ -42,16 +42,16 @@ export class AdminComponent {
 
   // public method
   navMobClick() {
-    // if (this.windowWidth < 992) {
-    //   if (this.navCollapsedMob && !document.querySelector('app-navigation.pcoded-navbar')?.classList.contains('mob-open')) {
-    //     this.navCollapsedMob = !this.navCollapsedMob;
-    //     setTimeout(() => {
-    //       this.navCollapsedMob = !this.navCollapsedMob;
-    //     }, 100);
-    //   } else {
-    //     this.navCollapsedMob = !this.navCollapsedMob;
-    //   }
-    // }
+    if (this.windowWidth < 992) {
+      if (this.navCollapsedMob && !document.querySelector('app-navigation.pcoded-navbar')?.classList.contains('mob-open')) {
+        this.navCollapsedMob = !this.navCollapsedMob;
+        setTimeout(() => {
+          this.navCollapsedMob = !this.navCollapsedMob;
+        }, 100);
+      } else {
+        this.navCollapsedMob = !this.navCollapsedMob;
+      }
+    }
     this.layoutState.toggleNavCollapsedMob();
   }
 

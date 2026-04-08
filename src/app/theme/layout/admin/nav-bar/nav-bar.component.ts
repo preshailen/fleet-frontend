@@ -1,5 +1,5 @@
 // angular import
-import { Component, output, signal, WritableSignal } from '@angular/core';
+import { Component, HostListener, output, signal, WritableSignal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -27,6 +27,12 @@ export class NavBarComponent {
     this.menuClass = false;
     this.collapseStyle = 'none';
     this.windowWidth = window.innerWidth;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  // eslint-disable-next-line
+  onResize(event: any): void {
+    this.windowWidth = event.target.innerWidth;
   }
 
   // public method

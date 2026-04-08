@@ -1,5 +1,5 @@
-import { inject, Injectable, NgZone } from '@angular/core';
-import Swal, { SweetAlertOptions } from 'sweetalert2';
+import { Injectable } from '@angular/core';
+import Swal from 'sweetalert2';
 import { Observable, lastValueFrom} from 'rxjs';
 import { Index } from '../models/index.model';
 
@@ -64,7 +64,7 @@ export class AlertService {
       showCancelButton: true,
       cancelButtonText: 'Cancel <i class="feather icon-x"></i>',
       cancelButtonColor: '#dc3545',
-      confirmButtonText: `${confirmText} <i class="feather icon-plus"></i>`,
+      confirmButtonText: confirmText,
       confirmButtonColor: '#2ed8b6',
       reverseButtons: true,
       focusConfirm: true,

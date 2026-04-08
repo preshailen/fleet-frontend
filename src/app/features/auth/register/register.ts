@@ -7,9 +7,9 @@ import { Field, form, minLength, required, validate } from '@angular/forms/signa
 import { SharedModule } from '../../../theme/shared/shared.module';
 import { AuthService } from '../../../core/services/auth.service';
 import { AlertService } from '../../../core/services/alert.service';
-import { lastValueFrom } from 'rxjs';
 import { ValidatorService } from '../../../core/services/validator.service';
 import { HelpersService } from '../../../core/services/helpers.service';
+import { EMPTY_REGISTER_MODEL, RegisterModel } from '../../../core/models/auth.model';
 
 @Component({
   selector: 'app-register',
@@ -25,11 +25,7 @@ export class Register {
   private router = inject(Router);
   submitted = signal(false);
 
-  registerModel = signal<{ email: string; password: string, role: string | null }>({
-    email: '',
-    password: '',
-    role: null
-  });
+  registerModel = signal<RegisterModel>(EMPTY_REGISTER_MODEL);
 
   registerForm = form(this.registerModel, (schemaPath) => {
     required(schemaPath.email, { message: 'Email is required' });
@@ -44,9 +40,10 @@ export class Register {
     event.preventDefault();
     if (!this.registerForm().invalid()) {
       try {
-        const result = (await this.alertService.load(this.authService.register(this.registerModel())));
-        this.alertService.success(result.message)
-        this.router.navigate(['/auth/login'])
+        if (await this.alertService.load(this.authService.register(this.registerModel()))) {
+          this.alertService.success('Successfully registered!')
+          this.router.navigate(['/auth/login'])
+        }
       } catch (err: any) {
         this.alertService.error(err.error.message)
       }

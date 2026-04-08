@@ -16,7 +16,7 @@
                   placeholder="Enter Email Address"
                   [field]="registerForm.email"
                 />   
-                @if (registerForm.email().invalid() && (helperService.isFieldTouchedOrSubmitted(registerForm.email, submitted))) {
+                @if (registerForm.email().invalid() && helperService.isFieldTouchedOrSubmitted(registerForm.email, submitted)) {
                   <div class="invalid-feedback">
                     @for (error of registerForm.email().errors(); track error.kind) {
                       <div>{{ error.message }}</div>
@@ -34,7 +34,7 @@
                   placeholder="Enter Password (min. 12 characters)"
                   [field]="registerForm.password"
                 />
-                @if (registerForm.password().invalid() && (helperService.isFieldTouchedOrSubmitted(registerForm.password, submitted))) {
+                @if (registerForm.password().invalid() && helperService.isFieldTouchedOrSubmitted(registerForm.password, submitted)) {
                   <div class="invalid-feedback">
                     @for (error of registerForm.password().errors(); track error.kind) {
                       <div>{{ error.message }}</div>
@@ -60,7 +60,7 @@
                 }
               </div>
               <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+                <button type="submit" class="btn btn-primary btn-block mb-4">Register <i class="feather icon-edit"></i></button>
               </div>
             </form>
             <p class="mb-2">

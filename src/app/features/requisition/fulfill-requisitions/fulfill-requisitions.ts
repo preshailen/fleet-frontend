@@ -99,7 +99,7 @@ export class FulfillRequisitions {
     const quotes = this.filesData().quotes;
     if ((quotes.length >= 3) && (quotes.every(q => q.file !== null)) && (quotes.every(q => q.isPdf === true)) && (quotes.every(q => q.duplicate === false)) && (quotes.every(q => q.tooBig === false))) {
       try {
-        if (await this.alertService.confirm('Confirm fulfillment', '', 'Fulfill <i class="feather icon-package"></i>')) {
+        if (await this.alertService.confirm('Confirm fulfillment', 'Are you ready to fulfill Requisition?', 'Fulfill <i class="feather icon-package"></i>')) {
           const formData = new FormData();
           if (this.id()) {
             formData.append('id', String(this.id()));
@@ -112,7 +112,6 @@ export class FulfillRequisitions {
           if (await this.alertService.load(this.requisitionService.fulfillRequisition(formData))) {
             this.alertService.success('Requisition Fulfilled!');
             this.cancel();
-            // this.requisitions.set(await lastValueFrom(this.requisitionService.getSubmittedRequisitions(this.authService.getUser()?.email)));
           } else {
             this.alertService.error('Requisition Failed!');
           }

@@ -1,7 +1,7 @@
 import { Component, effect, inject, signal, viewChild } from '@angular/core';
 import { applyEach, form, max, maxLength, min, required, validate } from '@angular/forms/signals';
 import { NgWizardConfig, NgWizardService, StepChangedArgs, THEME } from 'ng-wizard';
-import { EMPTY_MODEL, Requisition, RequisitionModel } from '../../../core/models/requisition/requisition.model';
+import { EMPTY_MODEL, FULL_MODEL, Requisition, RequisitionModel } from '../../../core/models/requisition/requisition.model';
 import { HelpersService } from '../../../core/services/helpers.service';
 import { SharedModule } from '../../../theme/shared/shared.module';
 import { BasicDetails } from "./basic-details/basic-details";
@@ -164,7 +164,7 @@ export class CreateRequisition implements DeactivatableComponent {
   async create() {
     if (!this.requisitionForm().invalid()) {
       try {
-        if (await this.alertService.confirm('Confirm', 'Are you ready to create Requisition?', 'Confirm')) {
+        if (await this.alertService.confirm('Confirm create', 'Are you ready to create Requisition?', 'Confirm  <i class="feather icon-plus"></i>')) {
           const model: Requisition = {
             companyName: this.requisitionModel().basicDetails.companyName,
             department: this.requisitionModel().basicDetails.department,
