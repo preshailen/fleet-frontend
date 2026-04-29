@@ -127,6 +127,7 @@ export class UploadRecord {
           }
         }
       } catch(err: any) {
+        console.log(err);
         this.updateExcel(this.excelSheet().file, true, this.excelSheet().isExcel, this.excelSheet().tooBig, true);
         this.backendError.set(this.formatUploadErrors(err.error));
         this.alertService.error('Upload failed');
