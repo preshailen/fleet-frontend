@@ -24,59 +24,20 @@
       }
     </div>
     <div class="form-group row-layout">
-      <label for="make" class="form-label">Vehicle Make:</label>
-      <div class="input-wrapper">
-        <input
-          type="text"
-          class="form-control"
-          id="make"
-          [class.is-invalid]="helperService.isInvalid(specificationForm().make, submitted)"
-          [class.is-valid]="helperService.isValid(specificationForm().make, submitted)"
-          placeholder="Enter Vehicle Make"
-          [field]="specificationForm().make"
-        />
-      </div>
-      @if (specificationForm().make().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().make, submitted))) {
-        <div class="invalid-feedback full-width">
-          @for (error of specificationForm().make().errors(); track error.kind) {
-            <div>{{ error.message }}</div>
-          }
-        </div>
-      }
-    </div>
-    <div class="form-group row-layout">
-      <label for="model" class="form-label">Vehicle Model:</label>
-      <div class="input-wrapper">
-        <input
-          type="text"
-          class="form-control"
-          id="model"
-          [class.is-invalid]="helperService.isInvalid(specificationForm().model, submitted)"
-          [class.is-valid]="helperService.isValid(specificationForm().model, submitted)"
-          placeholder="Enter Vehicle Model"
-          [field]="specificationForm().model"
-        />
-      </div>
-      @if (specificationForm().model().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().model, submitted))) {
-        <div class="invalid-feedback full-width">
-          @for (error of specificationForm().model().errors(); track error.kind) {
-            <div>{{ error.message }}</div>
-          }
-        </div>
-      }
-    </div>
-    <div class="form-group row-layout">
       <label for="engineSize" class="form-label">Engine Size:</label>
       <div class="input-wrapper">
-        <input
-          type="text"
-          class="form-control"
-          id="engineSize"
-          [class.is-invalid]="helperService.isInvalid(specificationForm().engineSize, submitted)"
-          [class.is-valid]="helperService.isValid(specificationForm().engineSize, submitted)"
-          placeholder="Enter Engine Size"
-          [field]="specificationForm().engineSize"
-        />
+        <div class="input-inline">
+          <ng-select
+            id="engineSize"
+            class="custom-select"
+            [class.is-invalid]="helperService.isInvalid(specificationForm().engineSize, submitted)"
+            [class.is-valid]="helperService.isValid(specificationForm().engineSize, submitted)"
+            [items]="engineSizeItems()"
+            placeholder="Select Engine Size"
+            [field]="specificationForm().engineSize"
+          ></ng-select>
+          <span class="unit-addon">cc</span>
+        </div>
       </div>
       @if (specificationForm().engineSize().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().engineSize, submitted))) {
         <div class="invalid-feedback full-width">
@@ -89,15 +50,14 @@
     <div class="form-group row-layout">
       <label for="fuelType" class="form-label">Fuel Type:</label>
       <div class="input-wrapper">
-        <input
-          type="text"
-          class="form-control"
+        <ng-select
+          [field]="specificationForm().fuelType"
           id="fuelType"
           [class.is-invalid]="helperService.isInvalid(specificationForm().fuelType, submitted)"
           [class.is-valid]="helperService.isValid(specificationForm().fuelType, submitted)"
-          placeholder="Enter Fuel Type"
-          [field]="specificationForm().fuelType"
-        />
+          [items]="fuelTypeItems()"
+          placeholder="Select Fuel Type"
+        ></ng-select>
       </div>
       @if (specificationForm().fuelType().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().fuelType, submitted))) {
         <div class="invalid-feedback full-width">
@@ -110,15 +70,14 @@
     <div class="form-group row-layout">
       <label for="transmission" class="form-label">Transmission:</label>
       <div class="input-wrapper">
-        <input
-          type="text"
-          class="form-control"
+        <ng-select
+          [field]="specificationForm().transmission"
           id="transmission"
           [class.is-invalid]="helperService.isInvalid(specificationForm().transmission, submitted)"
           [class.is-valid]="helperService.isValid(specificationForm().transmission, submitted)"
-          placeholder="Enter Transmission"
-          [field]="specificationForm().transmission"
-        />
+          [items]="transmissionItems()"
+          placeholder="Select Transmission"
+        ></ng-select>
       </div>
       @if (specificationForm().transmission().invalid() && (helperService.isFieldTouchedOrSubmitted(specificationForm().transmission, submitted))) {
         <div class="invalid-feedback full-width">

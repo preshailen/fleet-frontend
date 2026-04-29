@@ -8,6 +8,11 @@ export const EMPTY_REGISTER_MODEL = {
   password: '',
   role: null
 }
+export const EMPTY_SUPPLIER_REGISTER_MODEL = {
+  email: '',
+  password: '',
+  role: 'SUPPLIER'
+}
 export interface LoginModel {
   email: string;
   password: string

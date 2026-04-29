@@ -28,6 +28,10 @@ const routes: Routes = [
         loadChildren: () => import('./features/requisition/requisition.module').then(d => d.RequisitionModule)
       },
       {
+        path: 'vehicle-records',
+        loadChildren: () => import('./features/vehicle-records/vehicle-records.module').then(k => k.VehicleRecordsModule)
+      },
+      {
         path: 'component',
         loadChildren: () => import('./demo/ui-element/ui-basic.module').then((m) => m.UiBasicModule)
       },
@@ -42,10 +46,6 @@ const routes: Routes = [
       {
         path: 'tables',
         loadComponent: () => import('./demo/tables/tbl-bootstrap/tbl-bootstrap.component').then((c) => c.TblBootstrapComponent)
-      },
-      {
-        path: 'sample-page',
-        loadComponent: () => import('./demo/other/sample-page/sample-page.component').then((c) => c.SamplePageComponent)
       }
     ]
   },
@@ -56,6 +56,10 @@ const routes: Routes = [
       {
         path: 'register',
         loadComponent: () => import('./features/auth/register/register').then((c) => c.Register)
+      },
+      {
+        path: 'supplier-register',
+        loadComponent: () => import('./features/auth/supplier-register/supplier-register').then((i) => i.SupplierRegister)
       },
       {
         path: 'login',

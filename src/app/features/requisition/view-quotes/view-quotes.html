@@ -8,9 +8,6 @@
           @if (!id()) {
             <app-requisition-table [filters]="filters()" [action]="action()" (doActionOutput)="viewQuotes($event)"></app-requisition-table>
           } @else {
-            @if (this.requisition()) {
-              <app-display-specifications [requisition]="requisition()"></app-display-specifications>
-            }
             <div class="table-responsive">
                 <table class="table table-striped">
                   <thead>

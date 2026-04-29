@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Observable, lastValueFrom} from 'rxjs';
-import { Index } from '../models/index.model';
 
 @Injectable({
   providedIn: 'root',
@@ -174,7 +173,7 @@ export class AlertService {
       allowOutsideClick: false
     }).then((result) => result.isConfirmed);
   }
-  public async addItem(items: Index[] | undefined) {
+  public async addItem(items: any[] | undefined) {
     return await Swal.fire({
       title: 'Add Item',
       input: 'textarea',

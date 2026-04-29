@@ -1,0 +1,407 @@
+<div class="card-body centre-text">
+  <h6><b>Add Quote</b></h6>
+  <hr />
+  <form (ngSubmit)="onSubmit($event)">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Requisition data</th>
+            <th colspan="2">Quote data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Unit Price</b></td>
+            <td>R {{ requisition()?.estimatedVehicleCost }}</td>
+            <td colspan="2">
+              <div class="input-group">
+                <span class="input-group-text">R</span>
+                <input
+                  type="number"
+                  (keydown)="helperService.blockInvalid($event)"
+                  class="form-control"
+                  id="unitPrice"
+                  [class.is-invalid]="helperService.isInvalid(quoteForm.summary.unitPrice, submitted)"
+                  [class.is-valid]="helperService.isValid(quoteForm.summary.unitPrice, submitted)"
+                  placeholder="Enter Unit Price"
+                  [field]="quoteForm.summary.unitPrice"
+                />
+                @if (quoteForm.summary.unitPrice().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.summary.unitPrice, submitted))) {
+                  <div class="invalid-feedback full-width">
+                    @for (error of quoteForm.summary.unitPrice().errors(); track error.kind) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><b>Delivery Lead Time</b></td>
+            <td></td>
+            <td class="form-group" colspan="2">
+              <input
+                type="text"
+                class="form-control"
+                id="deliveryLeadTime"
+                [class.is-invalid]="helperService.isInvalid(quoteForm.summary.deliveryLeadTime, submitted)"
+                [class.is-valid]="helperService.isValid(quoteForm.summary.deliveryLeadTime, submitted)"
+                placeholder="Enter Delivery Lead Time"
+                [field]="quoteForm.summary.deliveryLeadTime"
+              />
+              @if (quoteForm.summary.deliveryLeadTime().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.summary.deliveryLeadTime, submitted))) {
+                <div class="invalid-feedback">
+                  @for (error of quoteForm.summary.deliveryLeadTime().errors(); track error.kind) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td><b>Warranty</b></td>
+            <td></td>
+            <td class="form-group" colspan="2">
+              <input
+                type="text"
+                class="form-control"
+                id="warranty"
+                [class.is-invalid]="helperService.isInvalid(quoteForm.summary.warranty, submitted)"
+                [class.is-valid]="helperService.isValid(quoteForm.summary.warranty, submitted)"
+                placeholder="Enter Warranty"
+                [field]="quoteForm.summary.warranty"
+              />
+              @if (quoteForm.summary.warranty().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.summary.warranty, submitted))) {
+                <div class="invalid-feedback">
+                  @for (error of quoteForm.summary.warranty().errors(); track error.kind) {
+                    <div>{{ error.message }}</div>
+                  }
+               </div>
+              }
+            </td>
+          </tr> 
+          <tr>
+            <td><b>Engine Capacity</b></td>
+            <td>{{ requisition()?.engineSize }}cc</td>
+            <td class="form-group" colspan="2">
+              <div class="input-inline">
+                <ng-select
+                  id="engineCapacity"
+                  class="custom-select"
+                  [class.is-invalid]="helperService.isInvalid(quoteForm.evaluation.engineCapacity, submitted)"
+                  [class.is-valid]="helperService.isValid(quoteForm.evaluation.engineCapacity, submitted)"
+                  [items]="engineSizeItems()"
+                  placeholder="Select Engine Capacity"
+                  [field]="quoteForm.evaluation.engineCapacity"
+                ></ng-select>
+                <span class="unit-addon">cc</span>
+              </div>
+              @if (quoteForm.evaluation.engineCapacity().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.evaluation.engineCapacity, submitted))) {
+                <div class="invalid-feedback">
+                  @for (error of quoteForm.evaluation.engineCapacity().errors(); track error.kind) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+            </td>              
+          </tr>
+          <tr>
+            <td><b>Fuel Type</b></td>
+            <td>{{ requisition()?.fuelType }}</td>
+            <td class="form-group" colspan="2">
+              <ng-select
+                id="fuelType"
+                [class.is-invalid]="helperService.isInvalid(quoteForm.evaluation.fuelType, submitted)"
+                [class.is-valid]="helperService.isValid(quoteForm.evaluation.fuelType, submitted)"
+                [items]="fuelTypeItems()"
+                placeholder="Select Fuel Type"
+                [field]="quoteForm.evaluation.fuelType"
+              ></ng-select>
+              @if (quoteForm.evaluation.fuelType().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.evaluation.fuelType, submitted))) {
+                <div class="invalid-feedback full-width">
+                  @for (error of quoteForm.evaluation.fuelType().errors(); track error.kind) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td><b>Transmission</b></td>
+            <td>{{ requisition()?.transmission }}</td>
+            <td class="form-group" colspan="2">
+              <ng-select
+                id="transmission"
+                [class.is-invalid]="helperService.isInvalid(quoteForm.evaluation.transmission, submitted)"
+                [class.is-valid]="helperService.isValid(quoteForm.evaluation.transmission, submitted)"
+                [items]="transmissionItems()"
+                placeholder="Select Transmission"
+                [field]="quoteForm.evaluation.transmission"
+              ></ng-select>
+              @if (quoteForm.evaluation.transmission().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.evaluation.transmission, submitted))) {
+                <div class="invalid-feedback full-width">
+                  @for (error of quoteForm.evaluation.transmission().errors(); track error.kind) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td><b>Safety Features</b></td>
+            <td></td>
+            <td class="form-group" colspan="2">
+              <input
+                type="text"
+                class="form-control"
+                id="safetyFeatures"
+                [class.is-invalid]="helperService.isInvalid(quoteForm.evaluation.safetyFeatures, submitted)"
+                [class.is-valid]="helperService.isValid(quoteForm.evaluation.safetyFeatures, submitted)"
+                placeholder="Enter Safety Features"
+                [field]="quoteForm.evaluation.safetyFeatures"
+              />
+              @if (quoteForm.evaluation.safetyFeatures().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.evaluation.safetyFeatures, submitted))) {
+                <div class="invalid-feedback">
+                  @for (error of quoteForm.evaluation.safetyFeatures().errors(); track error.kind) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+            </td>              
+          </tr>
+          <tr>
+            <td><b>Additional Accessories</b></td>
+            <td>{{ requisition()?.accessories }}</td>
+            <td class="form-group" colspan="2">
+              <ng-select [field]="quoteForm.evaluation.additionalAccessories" id="accessories"
+                [class.is-invalid]="helperService.isInvalid(quoteForm.evaluation.additionalAccessories, submitted)"
+                [class.is-valid]="helperService.isValid(quoteForm.evaluation.additionalAccessories, submitted)"
+                [items]="[]" [multiple]="true"  [addTag]="true" placeholder="Enter Additional Accessories">
+              </ng-select>
+              @if (quoteForm.evaluation.additionalAccessories().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.evaluation.additionalAccessories, submitted))) {
+                <div class="invalid-feedback">
+                  @for (error of quoteForm.evaluation.additionalAccessories().errors(); track error.kind) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+              @if (lengthError()) {
+                <div class="invalid-feedback">
+                  <div>Accessory must be at most 100 characters</div>
+                </div>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td><b>Efficiency</b></td>
+            <td></td>
+            <td colspan="2">
+              <div class="input-group">
+                <input
+                  type="number"
+                  (keydown)="helperService.blockInvalid($event)"
+                  class="form-control"
+                  id="efficiency"
+                  [class.is-invalid]="helperService.isInvalid(quoteForm.evaluation.efficiency, submitted)"
+                  [class.is-valid]="helperService.isValid(quoteForm.evaluation.efficiency, submitted)"
+                  placeholder="Enter Efficiency"
+                  [field]="quoteForm.evaluation.efficiency"
+                />
+                @if (quoteForm.evaluation.efficiency().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.evaluation.efficiency, submitted))) {
+                  <div class="invalid-feedback full-width">
+                    @for (error of quoteForm.evaluation.efficiency().errors(); track error.kind) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
+              </div>
+              
+            </td>
+          </tr>
+          <tr>
+            <td><b>Additional Information</b></td>
+            <td>{{ requisition()?.basicAdditionalInfo }}</td>
+            <td class="form-group" colspan="2">
+              <textarea
+                type="text"
+                class="form-control"
+                id="additionalInformation"
+                [class.is-invalid]="helperService.isInvalid(quoteForm.evaluation.additionalInformation, submitted)"
+                [class.is-valid]="helperService.isValid(quoteForm.evaluation.additionalInformation, submitted)"
+                placeholder="Enter Optional Additional Information"
+                [field]="quoteForm.evaluation.additionalInformation"
+              >
+              </textarea>
+              @if (quoteForm.evaluation.additionalInformation().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.evaluation.additionalInformation, submitted))) {
+                <div class="invalid-feedback">
+                  @for (error of quoteForm.evaluation.additionalInformation().errors(); track error.kind) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+            </td>              
+          </tr>
+          <tr>
+            <td><b>Vehicle Retail Price</b></td>
+            <td></td>
+            <td colspan="2">
+              <div class="input-group">
+                <span class="input-group-text">R</span>
+                <input
+                  type="number"
+                  (keydown)="helperService.blockInvalid($event)"
+                  class="form-control"
+                  id="vehicleRetailPrice"
+                  [class.is-invalid]="helperService.isInvalid(quoteForm.commercial.vehicleRetailPrice, submitted)"
+                  [class.is-valid]="helperService.isValid(quoteForm.commercial.vehicleRetailPrice, submitted)"
+                  placeholder="Enter Vehicle Retail Price"
+                  [field]="quoteForm.commercial.vehicleRetailPrice"
+                />
+                @if (quoteForm.commercial.vehicleRetailPrice().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.commercial.vehicleRetailPrice, submitted))) {
+                  <div class="invalid-feedback full-width">
+                    @for (error of quoteForm.commercial.vehicleRetailPrice().errors(); track error.kind) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><b>Delivery Costs</b></td>
+            <td></td>
+            <td colspan="2">
+              <div class="input-group">
+                <span class="input-group-text">R</span>
+                <input
+                  type="number"
+                  (keydown)="helperService.blockInvalid($event)"
+                  class="form-control"
+                  id="deliveryCosts"
+                  [class.is-invalid]="helperService.isInvalid(quoteForm.commercial.deliveryCosts, submitted)"
+                  [class.is-valid]="helperService.isValid(quoteForm.commercial.deliveryCosts, submitted)"
+                  placeholder="Enter Delivery Costs"
+                  [field]="quoteForm.commercial.deliveryCosts"
+                />
+                @if (quoteForm.commercial.deliveryCosts().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.commercial.deliveryCosts, submitted))) {
+                  <div class="invalid-feedback full-width">
+                    @for (error of quoteForm.commercial.deliveryCosts().errors(); track error.kind) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><b>Optional Extras</b></td>
+            <td></td>
+            <td class="form-group" colspan="2">
+              <input
+                type="text"
+                class="form-control"
+                id="optionalExtras"
+                [class.is-invalid]="helperService.isInvalid(quoteForm.commercial.optionalExtras, submitted)"
+                [class.is-valid]="helperService.isValid(quoteForm.commercial.optionalExtras, submitted)"
+                placeholder="Enter Optional Extras"
+                [field]="quoteForm.commercial.optionalExtras"
+              />
+              @if (quoteForm.commercial.optionalExtras().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.commercial.optionalExtras, submitted))) {
+                <div class="invalid-feedback">
+                  @for (error of quoteForm.commercial.optionalExtras().errors(); track error.kind) {
+                    <div>{{ error.message }}</div>
+                  }
+                </div>
+              }
+            </td>              
+          </tr>
+          <tr>
+            <td><b>Other Costs</b></td>
+            <td></td>
+            <td colspan="2">
+              <div class="input-group">
+                <span class="input-group-text">R</span>
+                <input
+                  type="number"
+                  (keydown)="helperService.blockInvalid($event)"
+                  class="form-control"
+                  id="otherCosts"
+                  [class.is-invalid]="helperService.isInvalid(quoteForm.commercial.otherCosts, submitted)"
+                  [class.is-valid]="helperService.isValid(quoteForm.commercial.otherCosts, submitted)"
+                  placeholder="Enter Other Costs"
+                  [field]="quoteForm.commercial.otherCosts"
+                />
+                @if (quoteForm.commercial.otherCosts().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.commercial.otherCosts, submitted))) {
+                  <div class="invalid-feedback full-width">
+                    @for (error of quoteForm.commercial.otherCosts().errors(); track error.kind) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><b>Total Costs</b></td>
+            <td></td>
+            <td colspan="2">
+              <div class="input-group">
+                <span class="input-group-text">R</span>
+                <input
+                  type="number"
+                  (keydown)="helperService.blockInvalid($event)"
+                  class="form-control"
+                  id="totalCosts"
+                  [class.is-invalid]="helperService.isInvalid(quoteForm.commercial.totalCosts, submitted)"
+                  [class.is-valid]="helperService.isValid(quoteForm.commercial.totalCosts, submitted)"
+                  placeholder="Enter Total Costs"
+                  [field]="quoteForm.commercial.totalCosts"
+                />
+                @if (quoteForm.commercial.totalCosts().invalid() && (helperService.isFieldTouchedOrSubmitted(quoteForm.commercial.totalCosts, submitted))) {
+                  <div class="invalid-feedback full-width">
+                    @for (error of quoteForm.commercial.totalCosts().errors(); track error.kind) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><b>Quote PDF</b></td>
+            <td></td>
+            <td class="form-file mb-3" colspan="2">
+              <input
+                type="file"
+                class="form-control"
+                id="pdf"
+                accept=".pdf,application/pdf" 
+                (change)="onFileSelected($event)"
+                (cancel)="onFileCancelled($event)"
+                [ngClass]= "helperService.controlFileSelect(quoteModel().pdf)"
+              />
+              @if(!quoteModel().pdf.file && quoteModel().pdf.touched) {
+                <div class="invalid-feedback">File is required!</div>
+              }
+              @if (quoteModel().pdf.file && !quoteModel().pdf.isPdf) {
+                <div class="invalid-feedback">File is not a pdf!</div>
+              }
+              @if (quoteModel().pdf.file && quoteModel().pdf.duplicate) {
+                <div class="invalid-feedback">Duplicate pdf!</div>
+              }
+              @if (quoteModel().pdf.file && quoteModel().pdf.tooBig) {
+                <div class="invalid-feedback">File is too big!</div>
+              }
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="button-row">
+      <button type="button" class="btn btn-danger" (click)="exitQuote()">Cancel <i class="feather icon-x"></i></button>
+      <button type="submit" class="btn btn-success">Add Quote <i class="feather icon-plus"></i></button>
+    </div>
+  </form>
+</div>

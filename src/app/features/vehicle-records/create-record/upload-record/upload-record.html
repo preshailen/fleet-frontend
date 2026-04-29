@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card>
+      <h2>Upload Excel Spreadsheet</h2>
+      <p>Select or drag and drop your .xlsx file</p>
+      <div 
+        class="drop-zone" 
+        [class.dragover]="isDragOver()"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave()"
+        (drop)="onDrop($event)"
+        (click)="fileInput.click()"
+        [ngClass]= "helperService.controlExcelSelect(excelSheet())"
+      >
+        <div class="holder">
+          @if (!excelSheet().file) {
+            Click to browse <i class="feather icon-search"></i> or drag file here <i class="feather icon-arrow-down"></i>
+          } @else {
+            <i class="feather icon-file-text file"></i> {{ excelSheet().file?.name }}
+          }
+        </div>
+        <input 
+          #fileInput
+          type="file" 
+          accept=".xlsx"
+          (cancel)="onFileCancelled($event)"
+          (change)="onFileSelected($event)" 
+          hidden
+        />
+      </div>
+      @if(!excelSheet().file && excelSheet().touched) {
+        <div class="invalid-feedback">File is required</div>
+      }
+      @if (excelSheet().file && !excelSheet().isExcel) {
+        <div class="invalid-feedback">File is not an Excel Sheet</div>
+      }
+      @if (excelSheet().file && excelSheet().tooBig) {
+        <div class="invalid-feedback">File is too big. A maximum of 25MB or 100000 rows is allowed</div>
+      }
+      @if(excelSheet().file && excelSheet().backendError) {
+        <div class="invalid-feedback" [innerHTML]="backendError()"></div>
+      }
+      <button class="btn btn-primary d-inline-flex align-items-center gap-2 upload" (click)="upload()">Upload<i class="feather icon-plus"></i></button>
+    </app-card>
+  </div>
+</div>
+
+

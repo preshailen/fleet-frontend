@@ -3,11 +3,10 @@ import { AlertService } from '../../../../core/services/alert.service';
 import { lastValueFrom } from 'rxjs';
 import { RequisitionService } from '../../../../core/services/requisition.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { DisplaySpecifications } from '../display-specifications/display-specifications';
 
 @Component({
   selector: 'app-quote-table',
-  imports: [DisplaySpecifications],
+  imports: [],
   templateUrl: './quote-table.html',
   styleUrl: './quote-table.scss',
 })
@@ -22,9 +21,6 @@ export class QuoteTable implements OnInit {
   action = output<any>();
 
   async ngOnInit() {
-    const html = await lastValueFrom(this.requisitionService.getRequisitionSpecificationById(this.id()));
-    const safeHtml: SafeHtml = this.sanitizer.bypassSecurityTrustHtml(html);
-    this.requisition.set(safeHtml);
     this.quotes.set(await lastValueFrom(this.requisitionService.getAttachedQuotes(this.id())));
   }
   async viewQuote(url: string) {

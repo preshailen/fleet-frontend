@@ -1,6 +1,5 @@
 // angular import
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Field, form, required } from '@angular/forms/signals';
 
@@ -10,6 +9,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { AlertService } from '../../../core/services/alert.service';
 import { HelpersService } from '../../../core/services/helpers.service';
 import { EMPTY_LOGIN_MODEL, LoginModel } from '../../../core/models/auth.model';
+import { RouteService } from '../../../core/services/route.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -21,7 +21,8 @@ export class Login {
   private authService = inject(AuthService);
   private alertService = inject(AlertService);
   public helperService = inject(HelpersService);
-  private router = inject(Router);
+  private routeService = inject(RouteService);
+
   submitted = signal(false);
   loginModal = signal<LoginModel>(EMPTY_LOGIN_MODEL);
   loginForm = form(this.loginModal, (schemaPath) => {
@@ -36,7 +37,7 @@ export class Login {
       try {
         if (await this.alertService.load(this.authService.login(this.loginModal()))) {
           this.alertService.success('Successfully logged in!');
-          this.router.navigate(['/analytics']);
+          this.routeService.goToAnalytics();
         }
       } catch (err: any) {
         this.alertService.error(err.error.message);

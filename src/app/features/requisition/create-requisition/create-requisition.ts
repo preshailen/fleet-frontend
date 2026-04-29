@@ -1,7 +1,7 @@
 import { Component, effect, inject, signal, viewChild } from '@angular/core';
-import { applyEach, form, max, maxLength, min, required, validate } from '@angular/forms/signals';
+import { applyEach, debounce, form, max, maxLength, min, required, validate, validateAsync, validateHttp } from '@angular/forms/signals';
 import { NgWizardConfig, NgWizardService, StepChangedArgs, THEME } from 'ng-wizard';
-import { EMPTY_MODEL, FULL_MODEL, Requisition, RequisitionModel } from '../../../core/models/requisition/requisition.model';
+import { EMPTY_MODEL, Requisition, RequisitionModel } from '../../../core/models/requisition/requisition.model';
 import { HelpersService } from '../../../core/services/helpers.service';
 import { SharedModule } from '../../../theme/shared/shared.module';
 import { BasicDetails } from "./basic-details/basic-details";
@@ -15,6 +15,7 @@ import { ComplianceInformation } from './compliance-information/compliance-infor
 import { AlertService } from '../../../core/services/alert.service';
 import { RequisitionService } from '../../../core/services/requisition.service';
 import { DeactivatableComponent } from '../../../core/guards/leave.guard';
+import { AuthService } from '../../../core/services/auth.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class CreateRequisition implements DeactivatableComponent {
   private validatorService = inject(ValidatorService);
   private alertService = inject(AlertService);
   private requisitionService = inject(RequisitionService);
+  private authService = inject(AuthService);
   private wizard = inject(NgWizardService);
   public requisitionModel = signal<RequisitionModel>(EMPTY_MODEL);
   basicDetails = viewChild(BasicDetails);
@@ -39,6 +41,7 @@ export class CreateRequisition implements DeactivatableComponent {
   operationalRequirements = viewChild(OperationalRequirements);
   financialInformation = viewChild(FinancialInformation);
   changed = signal(false);
+
   requisitionForm = form(this.requisitionModel, (schemaPath) => {
     required(schemaPath.basicDetails.companyName, { message: 'Company Name is required' });
     validate(schemaPath.basicDetails.companyName, this.validatorService.maxLengthValidator({ max: 100, message: 'Company Name must be at most 100 characters' }));
@@ -52,14 +55,13 @@ export class CreateRequisition implements DeactivatableComponent {
     required(schemaPath.basicDetails.contactNumber, { message: 'Contact Number is required' });
     validate(schemaPath.basicDetails.contactNumber, this.validatorService.telephoneValidator());
     validate(schemaPath.basicDetails.contactNumber, this.validatorService.emptyValidator());
-    required(schemaPath.basicDetails.contactEmail, { message: "Requesting Employee's Email is required" });
-    validate(schemaPath.basicDetails.contactEmail, this.validatorService.emailValidator())
-    validate(schemaPath.basicDetails.contactEmail, this.validatorService.maxLengthValidator({ max: 100, message: "Requesting Employee's Email must be at most 100 characters" }));
-    validate(schemaPath.basicDetails.contactEmail, this.validatorService.emptyValidator());
     required(schemaPath.basicDetails.supplierEmail, { message: "Suppliers Email is required" });
     validate(schemaPath.basicDetails.supplierEmail, this.validatorService.emailValidator())
     validate(schemaPath.basicDetails.supplierEmail, this.validatorService.maxLengthValidator({ max: 100, message: "Suppliers Email must be at most 100 characters" }));
     validate(schemaPath.basicDetails.supplierEmail, this.validatorService.emptyValidator());
+    validate(schemaPath.basicDetails.supplierEmail, this.validatorService.sameEmailValidator({ userEmail: this.authService.getUser()?.email! }));
+    debounce(schemaPath.basicDetails.supplierEmail, 2500);
+    validateHttp(schemaPath.basicDetails.supplierEmail, this.validatorService.checkNonSupplierExists());
     required(schemaPath.basicDetails.nameOfDriverAssigned, { message: 'Name of Driver Assigned is required' });
     validate(schemaPath.basicDetails.nameOfDriverAssigned, this.validatorService.maxLengthValidator({ max: 100, message: 'Name of Assigned Driver must be at most 100 characters' }));
     validate(schemaPath.basicDetails.nameOfDriverAssigned, this.validatorService.emptyValidator());
@@ -76,21 +78,9 @@ export class CreateRequisition implements DeactivatableComponent {
     required(schemaPath.specifications.vehicleType, { message: 'Vehicle Type is required'});
     validate(schemaPath.specifications.vehicleType, this.validatorService.maxLengthValidator({ max: 100, message: 'Vehicle Type must be at most 100 characters' }));
     validate(schemaPath.specifications.vehicleType, this.validatorService.emptyValidator());
-    required(schemaPath.specifications.make, { message: 'Vehicle Make is required'});
-    validate(schemaPath.specifications.make, this.validatorService.maxLengthValidator({ max: 100, message: 'Vehicle Make must be at most 100 characters' }));
-    validate(schemaPath.specifications.make, this.validatorService.emptyValidator());
-    required(schemaPath.specifications.model, { message: 'Vehicle Model is required'});
-    validate(schemaPath.specifications.model, this.validatorService.maxLengthValidator({ max: 100, message: 'Vehicle Model must be at most 100 characters' }));
-    validate(schemaPath.specifications.model, this.validatorService.emptyValidator());
     required(schemaPath.specifications.engineSize, { message: 'Engine Size is required'});
-    validate(schemaPath.specifications.engineSize, this.validatorService.maxLengthValidator({ max: 100, message: 'Engine Size must be at most 100 characters' }));
-    validate(schemaPath.specifications.engineSize, this.validatorService.emptyValidator());
     required(schemaPath.specifications.fuelType, { message: 'Fuel Type is required'});
-    validate(schemaPath.specifications.fuelType, this.validatorService.maxLengthValidator({ max: 100, message: 'Fuel Type must be at most 100 characters' }));
-    validate(schemaPath.specifications.fuelType, this.validatorService.emptyValidator());
     required(schemaPath.specifications.transmission, { message: 'Transmission is required'});
-    validate(schemaPath.specifications.transmission, this.validatorService.maxLengthValidator({ max: 100, message: 'Transmission must be at most 100 characters' }));
-    validate(schemaPath.specifications.transmission, this.validatorService.emptyValidator());
     required(schemaPath.specifications.colourPreference, { message: 'Colour Preference is required'});
     validate(schemaPath.specifications.colourPreference, this.validatorService.maxLengthValidator({ max: 100, message: 'Colour Preference must be at most 100 characters' }));
     validate(schemaPath.specifications.colourPreference, this.validatorService.emptyValidator());
@@ -101,9 +91,6 @@ export class CreateRequisition implements DeactivatableComponent {
     validate(schemaPath.specifications.additionalInfo, this.validatorService.maxLengthValidator({ max: 1000, message: 'Additional info must be at most 1000 characters' }));
     validate(schemaPath.specifications.additionalInfo, this.validatorService.emptyValidator());
 
-    required(schemaPath.requirements.intendedUse, { message: 'Intended Use is required'});
-    validate(schemaPath.requirements.intendedUse, this.validatorService.maxLengthValidator({ max: 100, message: 'Intended Use must be at most 100 characters' }));
-    validate(schemaPath.requirements.intendedUse, this.validatorService.emptyValidator());
     required(schemaPath.requirements.estimatedMonthlyKms, { message: 'Estimated Monthly Kms are required'})
     min(schemaPath.requirements.estimatedMonthlyKms, 1, { message: 'Estimated Monthly Kms must be 1 or more' });
     max(schemaPath.requirements.estimatedMonthlyKms, 100000, { message: 'Estimated Monthly Kms must be 100000 or less' });
@@ -153,14 +140,7 @@ export class CreateRequisition implements DeactivatableComponent {
   next() {
     this.wizard.next();
   }
-  changeEmail(email: string) {
-    this.requisitionModel.update(m => ({ ...m,
-      basicDetails: {
-        ...m.basicDetails,
-        contactEmail: email
-      }
-    }));
-  }
+
   async create() {
     if (!this.requisitionForm().invalid()) {
       try {
@@ -170,7 +150,7 @@ export class CreateRequisition implements DeactivatableComponent {
             department: this.requisitionModel().basicDetails.department,
             requestingEmployee: this.requisitionModel().basicDetails.requestingEmployee,
             contactNumber: this.requisitionModel().basicDetails.contactNumber,
-            contactEmail: this.requisitionModel().basicDetails.contactEmail,
+            contactEmail: this.authService.getUser()?.email!,
             supplierEmail: this.requisitionModel().basicDetails.supplierEmail,
             nameOfDriverAssigned: this.requisitionModel().basicDetails.nameOfDriverAssigned,
             basicAdditionalInfo: this.requisitionModel().basicDetails.additionalInfo,
@@ -178,15 +158,12 @@ export class CreateRequisition implements DeactivatableComponent {
             type: this.requisitionModel().typeOfAgreement.type,
             term: this.requisitionModel().typeOfAgreement.term,
             vehicleType: this.requisitionModel().specifications.vehicleType,
-            make: this.requisitionModel().specifications.make,
-            model: this.requisitionModel().specifications.model,
-            engineSize: this.requisitionModel().specifications.engineSize,
-            fuelType: this.requisitionModel().specifications.fuelType,
-            transmission: this.requisitionModel().specifications.transmission,
+            engineSize: this.requisitionModel().specifications.engineSize!,
+            fuelType: this.requisitionModel().specifications.fuelType!,
+            transmission: this.requisitionModel().specifications.transmission!,
             colourPreference: this.requisitionModel().specifications.colourPreference,
             accessories: this.turnArrayIntoList(this.requisitionModel().specifications.accessories),
             vehicleAdditionalInfo: this.requisitionModel().specifications.additionalInfo,
-            intendedUse: this.requisitionModel().requirements.intendedUse,
             estimatedMonthlyKms: this.requisitionModel().requirements.estimatedMonthlyKms,
             costCentre: this.requisitionModel().financialInfo.costCentre,
             budgetAvailable: this.requisitionModel().financialInfo.budgetAvailable,
@@ -223,7 +200,6 @@ export class CreateRequisition implements DeactivatableComponent {
   }
   resetSubmit() {
     this.basicDetails()?.submitted.set(false);
-    this.basicDetails()?.uncheck();
     this.purpose()?.submitted.set(false);
     this.typeofAgreement()?.submitted.set(false);
     this.specifications()?.submitted.set(false);

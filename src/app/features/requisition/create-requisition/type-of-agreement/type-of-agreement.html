@@ -24,11 +24,16 @@
           <div class="row-layout p-3 custom-group">
             <label class="form-label" for="customControlValidation5"><b>Term: </b></label>
             <div class="input-wrapper">
-              <input class="form-control" type="number" [field]="agreementForm().term" id="customControlValidation5" 
-                     placeholder="Enter Term" [class.is-invalid]="helperService.isInvalid(agreementForm().term, submitted)"
-          [class.is-valid]="helperService.isValid(agreementForm().term, submitted)"/>
+              <input 
+                class="form-control" 
+                type="number"
+                [field]="agreementForm().term"
+                id="customControlValidation5" 
+                placeholder="Enter Term"
+                (keydown)="helperService.blockInvalid($event)"
+                [class.is-invalid]="helperService.isInvalid(agreementForm().term, submitted)"
+                [class.is-valid]="helperService.isValid(agreementForm().term, submitted)"/>
             </div>
-            
           </div>
           @if (agreementForm().term().invalid() && (helperService.isFieldTouchedOrSubmitted(agreementForm().term, submitted))) {
             <div class="full-width">

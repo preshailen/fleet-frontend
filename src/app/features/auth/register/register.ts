@@ -10,6 +10,7 @@ import { AlertService } from '../../../core/services/alert.service';
 import { ValidatorService } from '../../../core/services/validator.service';
 import { HelpersService } from '../../../core/services/helpers.service';
 import { EMPTY_REGISTER_MODEL, RegisterModel } from '../../../core/models/auth.model';
+import { RouteService } from '../../../core/services/route.service';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +23,7 @@ export class Register {
   private alertService = inject(AlertService);
   private validatorService = inject(ValidatorService);
   public helperService = inject(HelpersService);
-  private router = inject(Router);
+  private routeService = inject(RouteService);
   submitted = signal(false);
 
   registerModel = signal<RegisterModel>(EMPTY_REGISTER_MODEL);
@@ -42,7 +43,7 @@ export class Register {
       try {
         if (await this.alertService.load(this.authService.register(this.registerModel()))) {
           this.alertService.success('Successfully registered!')
-          this.router.navigate(['/auth/login'])
+          this.routeService.goToLogin();
         }
       } catch (err: any) {
         this.alertService.error(err.error.message)

@@ -20,15 +20,12 @@ export interface Requisition {
   type: string,
   term: number | null,
   vehicleType: string,
-  make: string,
-  model: string,
   engineSize: string,
   fuelType: string,
   transmission: string,
   colourPreference: string,
   accessories: string,
   vehicleAdditionalInfo: string,
-  intendedUse: string,
   estimatedMonthlyKms: number | null,
   costCentre: string,
   budgetAvailable: number | null,
@@ -46,7 +43,6 @@ export const EMPTY_MODEL = {
     department: '',
     requestingEmployee: '',
     contactNumber: '',
-    contactEmail: '',
     supplierEmail: '',
     nameOfDriverAssigned: '',
     additionalInfo: ''
@@ -60,17 +56,14 @@ export const EMPTY_MODEL = {
   },
   specifications: {
     vehicleType: '',
-    make: '',
-    model: '',
-    engineSize: '',
-    fuelType: '',
-    transmission: '',
+    engineSize: null,
+    fuelType: null,
+    transmission: null,
     colourPreference: '',
     accessories: [],
     additionalInfo: ''
   },
   requirements: {
-    intendedUse: '',
     estimatedMonthlyKms: null
   },
   financialInfo: {
@@ -85,57 +78,11 @@ export const EMPTY_MODEL = {
     licensingAndRegistration: null
   }
 }
-export const FULL_MODEL = {
-  basicDetails: {
-    companyName: 'GoogleGoogleGoogleGoogleGoogleGoogleGoogleGoogleGoogleGoogleGoovvvgleGoogleGoogleGoogleGoogleGoogleG',
-    department: 'ITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITITIT',
-    requestingEmployee: 'PreshailenPreshailenPreshailenPreshailenPreshailenPreshailenPreshailenPreshailenPreshailenPreshailen',
-    contactNumber: '22222222222222222222',
-    contactEmail: 'ruthnampresh@gmail.com',
-    supplierEmail: 'pdfootballpod@gmail.com',
-    nameOfDriverAssigned: 'MervinMervinMervinMervinMervinMervinMervinMervinMervinMervinMervinMervinMervinMervinMervinMervinMerv',
-    additionalInfo: 'AdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInf'
-  },
-  purpose: {
-    purpose: 'New Vehicle'
-  },
-  typeOfAgreement: {
-    type: 'Operating Lease with maintenance',
-    term: 600
-  },
-  specifications: {
-    vehicleType: 'VehicleType VehicleType VehicleType VehicleType VehicleType VehicleType VehicleType VehicleTypeVehic',
-    make: 'VehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeV',
-    model: 'VehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeV',
-    engineSize: 'VehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeV',
-    fuelType: 'VehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeV',
-    transmission: 'VehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeV',
-    colourPreference: 'VehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeVehicleMakeV',
-    accessories: [],
-    additionalInfo: 'AdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInformationAdditionalInf'
-  },
-  requirements: {
-    intendedUse: 'IntendedUseIntendedUseIntendedUseIntendedUseIntendedUseIntendedUseIntendedUseIntendedUseIntendedUseI',
-    estimatedMonthlyKms: 100000
-  },
-  financialInfo: {
-    costCentre: 'CostCentreCostCentreCostCentreCostCentreCostCentreCostCentreCostCentreCostCentreCostCentreCostCentre',
-    budgetAvailable: 10000000,
-    estimatedVehicleCost: 10000000,
-  },
-  complianceInfo: {
-    insurance: 'false',
-    vehicleTracking: 'false',
-    roadworthy: 'false',
-    licensingAndRegistration: 'false'
-  }
-}
 export interface BasicDetails {
   companyName: string,
   department: string,
   requestingEmployee: string,
   contactNumber: string,
-  contactEmail: string,
   supplierEmail: string,
   nameOfDriverAssigned: string,
   additionalInfo: string
@@ -149,17 +96,14 @@ export interface TypeOfAgreement {
 }
 export interface VehicleSpecifications {
   vehicleType: string,
-  make: string,
-  model: string,
-  engineSize: string,
-  fuelType: string,
-  transmission: string,
+  engineSize: string | null,
+  fuelType: string | null,
+  transmission: string | null,
   colourPreference: string,
   accessories: string[],
   additionalInfo: string
 }
 export interface OperationalRequirements {
-  intendedUse: string,
   estimatedMonthlyKms: number | null
 }
 export interface FinancialInformation {

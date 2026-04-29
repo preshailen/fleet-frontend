@@ -6,16 +6,14 @@ import { AuthService } from '../../../core/services/auth.service';
 import { RequisitionService } from '../../../core/services/requisition.service';
 import { SharedModule } from '../../../theme/shared/shared.module';
 import { RequisitionTable } from "../shared/requisition-table/requisition-table";
-import { DisplaySpecifications } from '../shared/display-specifications/display-specifications';
 
 @Component({
   selector: 'app-view-quotes',
-  imports: [SharedModule, DisplaySpecifications, RequisitionTable],
+  imports: [SharedModule, RequisitionTable],
   templateUrl: './view-quotes.html',
   styleUrl: './view-quotes.scss',
 })
 export class ViewQuotes {
-  private sanitizer = inject(DomSanitizer);
   private requisitionService = inject(RequisitionService);
   private authService = inject(AuthService);
   private alertService = inject(AlertService);
@@ -28,10 +26,7 @@ export class ViewQuotes {
   async viewQuotes(id: string) {
     try {
       this.quotes.set(await lastValueFrom(this.requisitionService.getAttachedQuotes(id)));
-      const html = await lastValueFrom(this.requisitionService.getRequisitionSpecificationById(id));
-      const safeHtml: SafeHtml = this.sanitizer.bypassSecurityTrustHtml(html);
-      this.requisition.set(safeHtml);
-      if (this.quotes().length > 0 && this.requisition()) {
+      if (this.quotes().length > 0) {
         this.id.set(id);
       }
     } catch(err) {

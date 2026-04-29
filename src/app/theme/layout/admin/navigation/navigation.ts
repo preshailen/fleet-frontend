@@ -34,14 +34,14 @@ export const NavigationItems: NavigationItem[] = [
       }
     ]
   },
-  {
+  /*{
     id: 'requisition',
     title: 'Requisition',
     type: 'group',
     icon: 'icon-group',
     children: [
       {
-        id: 'basic',
+        id: 'basic-requisition',
         title: 'Requisition',
         type: 'collapse',
         icon: 'feather icon-layers',
@@ -58,39 +58,50 @@ export const NavigationItems: NavigationItem[] = [
             type: 'item',
             url: '/requisition/fulfill-requisition'
           },
-          /*{
+          {
             id: 'view-quotes',
             title: 'View Quotes',
             type: 'item',
             url: '/requisition/view-quotes'
-          },
-          {
-            id: 'approvals',
-            title: 'Approvals',
-            type: 'collapse',
-            children: [
-              {
-                id: 'cost-centre',
-                title: 'Cost Centre',
-                type: 'item',
-                url: '/requisition/approvals/cost-centre'
-              },
-              {
-                id: 'finance',
-                title: 'Finance',
-                type: 'item',
-                url: '/requisition/approvals/finance'
-              },
-              {
-                id: 'delegated',
-                title: 'Delegated',
-                type: 'item',
-                url: '/requisition/approvals/delegated'
-              }
-            ]
-          }*/
+          }
         ]
       }
+    ]
+  },*/
+  {
+    id: 'vehicle-records',
+    title: 'Vehicle Records',
+    type: 'group',
+    icon: 'icon-group',
+    children: [
+      {
+        id: 'master-record',
+        title: 'Master Record',
+        type: 'item',
+        url: '/vehicle-records/master-record',
+        icon: 'feather icon-save'
+      },
+      {
+        id: 'create-record',
+        title: 'Create',
+        type: 'collapse',
+        icon: 'feather icon-plus',
+        children: [
+          {
+            id: 'upload-record',
+            title: 'Upload',
+            type: 'item',
+            url: '/vehicle-records/create-record/upload'
+          },
+          {
+            id: 'capture-record',
+            title: 'Capture',
+            type: 'item',
+            url: '/vehicle-records/create-record/capture'
+          }
+        ]
+      }
+
     ]
   },
   /*{
@@ -182,58 +193,6 @@ export const NavigationItems: NavigationItem[] = [
         url: '/tables',
         classes: 'nav-item',
         icon: 'feather icon-server'
-      }
-    ]
-  },
-  {
-    id: 'other',
-    title: 'Other',
-    type: 'group',
-    icon: 'icon-group',
-    children: [
-      {
-        id: 'sample-page',
-        title: 'Sample Page',
-        type: 'item',
-        url: '/sample-page',
-        classes: 'nav-item',
-        icon: 'feather icon-sidebar'
-      },
-      {
-        id: 'menu-level',
-        title: 'Menu Levels',
-        type: 'collapse',
-        icon: 'feather icon-menu',
-        children: [
-          {
-            id: 'menu-level-2.1',
-            title: 'Menu Level 2.1',
-            type: 'item',
-            url: 'javascript:',
-            external: true
-          },
-          {
-            id: 'menu-level-2.2',
-            title: 'Menu Level 2.2',
-            type: 'collapse',
-            children: [
-              {
-                id: 'menu-level-2.2.1',
-                title: 'Menu Level 2.2.1',
-                type: 'item',
-                url: 'javascript:',
-                external: true
-              },
-              {
-                id: 'menu-level-2.2.2',
-                title: 'Menu Level 2.2.2',
-                type: 'item',
-                url: 'javascript:',
-                external: true
-              }
-            ]
-          }
-        ]
       }
     ]
   }*/

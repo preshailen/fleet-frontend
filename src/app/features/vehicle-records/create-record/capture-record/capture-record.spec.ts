@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DisplaySpecifications } from './display-specifications';
+import { CaptureRecord } from './capture-record';
 
-describe('DisplaySpecifications', () => {
-  let component: DisplaySpecifications;
-  let fixture: ComponentFixture<DisplaySpecifications>;
+describe('CaptureRecord', () => {
+  let component: CaptureRecord;
+  let fixture: ComponentFixture<CaptureRecord>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DisplaySpecifications]
+      imports: [CaptureRecord]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DisplaySpecifications);
+    fixture = TestBed.createComponent(CaptureRecord);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

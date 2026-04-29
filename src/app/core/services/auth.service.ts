@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { User } from '../models/user.model';
 import { environment } from '../../../environments/environment';
 import { LoginModel, RegisterModel } from '../models/auth.model';
 
@@ -12,7 +11,7 @@ export class AuthService {
   private apiUrl = `${environment.apiUrl}/api/auth`;
 
   private accessToken = signal<string | null>(null);
-  private currentUser = signal<User | null>(null);
+  private currentUser = signal<any | null>(null);
   private http = inject(HttpClient);
   
   register(model: RegisterModel): Observable<string> {
@@ -20,7 +19,7 @@ export class AuthService {
   }
 
   login(model: LoginModel) {
-    return this.http.post<any>(`${this.apiUrl}/login`, model).pipe(tap(res => {
+    return this.http.post<any>(`${this.apiUrl}/login`, model, { withCredentials: true }).pipe(tap(res => {
       this.accessToken.set(res.accessToken);
       this.currentUser.set(res.user);
     }));
@@ -34,12 +33,11 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true }).pipe(tap((res) => {
+    return this.http.post<any>(`${this.apiUrl}/logout`, {}, { withCredentials: true }).pipe(tap((res) => {
       this.accessToken.set(null);
       this.currentUser.set(null);
     }));
   }
-
   getAccessToken() {
     return this.accessToken();
   }
@@ -49,7 +47,8 @@ export class AuthService {
   getUser() {
     return this.currentUser();
   }
-  setUser(user: User) {
+  setUser(user: any) {
+    console.log(user);
     this.currentUser.set(user);
   }
   isLoggedIn(): boolean {

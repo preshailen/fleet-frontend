@@ -30,6 +30,7 @@
           <span class="input-group-text">R</span>
           <input
             type="number"
+            (keydown)="helperService.blockInvalid($event)"
             class="form-control"
             id="budgetAvailable"
             [class.is-invalid]="helperService.isInvalid(financialForm().budgetAvailable, submitted)"
@@ -54,6 +55,7 @@
           <span class="input-group-text">R</span>
           <input
             type="number"
+            (keydown)="helperService.blockInvalid($event)"
             class="form-control"
             id="estimatedVehicleCost"
             [class.is-invalid]="helperService.isInvalid(financialForm().estimatedVehicleCost, submitted)"

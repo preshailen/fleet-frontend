@@ -5,7 +5,7 @@
       <hr />
       <ng-wizard class="rsWizardMainOverride" [config]="config" (stepChanged)="stepChanged($event)">
         <ng-wizard-step [title]="'1'" [description]="'Basic Details'" >
-          <app-basic-details [basicDetailsForm]="requisitionForm.basicDetails" [validationForm]="requisitionForm.basicDetails()" (goForward)="next()" (setEmail)="changeEmail($event)"></app-basic-details>
+          <app-basic-details [basicDetailsForm]="requisitionForm.basicDetails" [validationForm]="requisitionForm.basicDetails()" (goForward)="next()"></app-basic-details>
         </ng-wizard-step>
 
         <ng-wizard-step [title]="'2'" [description]="'Purpose'" >

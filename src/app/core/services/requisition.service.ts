@@ -20,11 +20,11 @@ export class RequisitionService {
     });
     return this.http.get<any[]>(`${this.apiUrl}/getRequisitions`, { params: httpParams });
   }
+  getRequisitionById(id: string) {
+    return this.http.get<any>(`${this.apiUrl}/getRequisitionById/${id}`);
+  }
   getAttachedQuotes(id: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/getAttachedQuotes/${id}`);
-  }
-  getRequisitionSpecificationById(id: string): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/getRequisitionSpecificationById/${id}`);
   }
   getSignedPdfUrl(url: string): Observable<string> {
     return this.http.get<string>(`${this.apiUrl}/getSignedPdfUrl/${url}`)
@@ -48,7 +48,7 @@ export class RequisitionService {
     return this.http.post<any>(`${this.apiUrl}/createRequisition`, requisition);
   }
   fulfillRequisition(data: FormData): Observable<boolean> {
-    return this.http.post<boolean>(`${this.apiUrl}/fulfillRequisition`, data)
+    return this.http.post<boolean>(`${this.apiUrl}/fulfillRequisition`, data);
   }
   selectPreferredQuote(requisitionId: string | null, quoteId: string | null): Observable<boolean> {
     return this.http.post<boolean>(`${this.apiUrl}/selectPreferredQuote/${requisitionId}/${quoteId}`, {})
