@@ -135,23 +135,35 @@ export class UploadRecord {
     }
   }
   formatUploadErrors(error: any) {
-    const details = error?.error?.details || error?.details || [];
+    const message = error?.message || error?.error?.message || "Upload failed";
+    const details = error?.details || error?.error?.details || [];
     if (!details.length) {
       return "Upload failed due to unknown error.";
     }
-    const isHeaderError = details[0]?.rawHeader;
+    const isMissingFields = typeof details[0] === "string";
+    if (isMissingFields) {
+      const prettify = (str: string) => str.replace(/([A-Z])/g, " $1").replace(/^./, s => s.toUpperCase());
+
+      const lines = details.map((field: string) => `• ${prettify(field)}`);
+
+      return [ `${message}:`, ...lines].join("<br>");
+    }
+
+    const isHeaderError = details[0]?.colNumber !== undefined && !details[0]?.field;
+
     if (isHeaderError) {
-      const lines = details.map((d: any) => `• "${d.rawHeader}" (Column ${d.colNumber})`);
-      return ["Upload failed: Unknown or invalid column(s) found:", ...lines].join("<br>");
+      const lines = details.map((d: any) => `• Column ${d.colNumber} (${d.normalized})`);
+      return [message || "Upload failed: Unknown or invalid column(s) found:", ...lines].join("<br>");
     }
     const isRowError = details[0]?.field || details[0]?.message;
+
     if (isRowError) {
       const lines = details.map((d: any) => {
-        return `• ${d.field ? `"${d.field}"` : "Row issue"}: ${
-          d.message || d.error || "Invalid value"
-        }`;
+        return `• Row ${d.row || "?"} ${
+          d.field ? `- "${d.field}"` : ""
+        }: ${d.message || d.error || "Invalid value"}`;
       });
-      return ["Upload failed: Invalid data found in rows:", ...lines].join("<br>");
+      return [message || "Upload failed: Invalid data found in rows:", ...lines].join("<br>");
     }
     return "Upload failed due to unknown error.";
   }
