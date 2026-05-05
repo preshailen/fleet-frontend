@@ -28,7 +28,6 @@ export class UploadRecord {
   }
   onFileCancelled(event: Event) {
     this.updateExcel(null, true, false, false, false);
-    console.log(this.excelSheet())
   }
   onDrop(event: DragEvent) {
     event.preventDefault();

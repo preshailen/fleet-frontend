@@ -25,7 +25,7 @@ export class MasterRecord implements OnInit{
     page: 1,
     limit: localStorage.getItem('fm_limit') !== null ? Number(localStorage.getItem('fm_limit')): 5,
     search: '',
-    sort: 'month'
+    sort: '_id'
   });
   limit_values = signal<string[]>([]);
   sort_values = signal<any[]>([]);

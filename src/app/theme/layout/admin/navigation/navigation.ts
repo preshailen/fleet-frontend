@@ -27,7 +27,7 @@ export const NavigationItems: NavigationItem[] = [
     children: [
       {
         id: 'dashboard',
-        title: 'Dashboard',
+        title: 'Home',
         type: 'item',
         url: '/analytics',
         icon: 'feather icon-home'
@@ -100,8 +100,27 @@ export const NavigationItems: NavigationItem[] = [
             url: '/vehicle-records/create-record/capture'
           }
         ]
+      },
+      {
+        id: 'record-reporting',
+        title: 'Reporting',
+        type: 'collapse',
+        icon: 'feather icon-file-text',
+        children: [
+          {
+            id: 'size-reporting',
+            title: 'Size',
+            type: 'item',
+            url: '/vehicle-records/record-reporting/size-reporting'
+          },
+          {
+            id: 'spend-reporting',
+            title: 'Spend',
+            type: 'item',
+            url: '/vehicle-records/record-reporting/spend-reporting'
+          }
+        ]
       }
-
     ]
   },
   /*{

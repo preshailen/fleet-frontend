@@ -24,4 +24,9 @@ export class VehicleRecordsService {
     return this.http.get<any[]>(`${this.apiUrl}/get-records`, { params: httpParams });
   }
 
+  
+  getTotals(id: string) {
+    return this.http.get<any>(`${this.apiUrl}/get-totals/${id}`);
+  }
+
 }

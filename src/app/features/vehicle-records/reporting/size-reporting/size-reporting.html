@@ -1,0 +1,24 @@
+<div class="row">
+  @for (option of options(); track option.id) {
+    <div class="col-md-12">
+      <app-card cardTitle="Bar chart business unit">
+        <h4>Per {{ option.id }}</h4>
+        @if (option.data.series?.length) {
+          <apx-chart
+            [chart]="option.data.chart!"
+            [colors]="option.data.colors!"
+            [stroke]="option.data.stroke!"
+            [series]="option.data.series!"
+            [xaxis]="option.data.xaxis!"
+            [tooltip]="option.data.tooltip!"
+            [fill]="option.data.fill!"
+            [legend]="option.data.legend!"
+          ></apx-chart>
+        } @else {
+          <p>No data available</p>
+        }   
+      </app-card>
+    </div>
+  }
+</div>
+
