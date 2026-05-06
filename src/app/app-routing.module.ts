@@ -32,6 +32,10 @@ const routes: Routes = [
         loadChildren: () => import('./features/vehicle-records/vehicle-records.module').then(k => k.VehicleRecordsModule)
       },
       {
+        path: 'reporting',
+        loadChildren: () => import('./features/reporting/reporting.module').then(k => k.ReportingModule)
+      },
+      {
         path: 'component',
         loadChildren: () => import('./demo/ui-element/ui-basic.module').then((m) => m.UiBasicModule)
       },

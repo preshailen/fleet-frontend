@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SizeReporting } from './size-reporting';
+import { FleetSize } from './fleet-size';
 
-describe('SizeReporting', () => {
-  let component: SizeReporting;
-  let fixture: ComponentFixture<SizeReporting>;
+describe('FleetSize', () => {
+  let component: FleetSize;
+  let fixture: ComponentFixture<FleetSize>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SizeReporting]
+      imports: [FleetSize]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SizeReporting);
+    fixture = TestBed.createComponent(FleetSize);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

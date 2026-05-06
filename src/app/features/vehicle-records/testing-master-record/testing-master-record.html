@@ -14,8 +14,12 @@
               </select>
             </div>
             <div class="form-group d-flex align-items-center gap-2">
+              <label for="search" class="mb-0">Search: </label>
+              <input (change)="onSearch($event)" style="min-width: 90px;" class="form-control w-auto pe-2" id="search" />
+            </div>
+            <div class="form-group d-flex align-items-center gap-2">
               <label for="sort" class="mb-0">Sort: </label>
-              <select [value]="query().sort" (change)="onSort($event)" style="min-width: 350px;" class="form-control w-auto pe-2" id="sort">
+              <select [value]="query().sort" (change)="onSort($event)" style="min-width: 90px;" class="form-control w-auto pe-2" id="sort">
                 @for (opt of sort_values(); track opt.key) {
                   <option [value]="opt.key" [selected]="opt.key === query().sort">{{ opt.label }}</option>
                 }

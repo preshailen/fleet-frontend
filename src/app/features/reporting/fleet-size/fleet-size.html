@@ -1,0 +1,57 @@
+<div class="row">
+    <ul class="nav nav-pills mb-3" ngbNav #nav1="ngbNav">
+      <li class="nav-item" [ngbNavItem]="1">
+        <a class="nav-link" ngbNavLink aria-controls="pills-home" aria-selected="true">By Year</a>
+        <ng-template ngbNavContent>
+          @for (option of optionsByYear(); track option.id) {
+            <div class="col-md-12">
+              <app-card cardTitle="Bar chart per year">
+                    <h4>Per {{ option.id }}</h4>
+        @if (option.data.series?.length) {
+          <apx-chart
+            [chart]="option.data.chart!"
+            [colors]="option.data.colors!"
+            [stroke]="option.data.stroke!"
+            [series]="option.data.series!"
+            [xaxis]="option.data.xaxis!"
+            [tooltip]="option.data.tooltip!"
+            [fill]="option.data.fill!"
+            [legend]="option.data.legend!"
+          ></apx-chart>
+        } @else {
+          <p>No data available</p>
+        }   
+      </app-card>
+    </div>
+  }
+            </ng-template>
+          </li>
+          <li class="nav-item" [ngbNavItem]="2">
+            <a class="nav-link" ngbNavLink aria-controls="pills-home" aria-selected="true">By Month</a>
+            <ng-template ngbNavContent>
+              @for (option of optionsByMonth(); track option.id) {
+                <div class="col-md-12">
+                  <app-card cardTitle="Bar chart per year">
+                    <h4>Per {{ option.id }}</h4>
+        @if (option.data.series?.length) {
+          <apx-chart
+            [chart]="option.data.chart!"
+            [colors]="option.data.colors!"
+            [stroke]="option.data.stroke!"
+            [series]="option.data.series!"
+            [xaxis]="option.data.xaxis!"
+            [tooltip]="option.data.tooltip!"
+            [fill]="option.data.fill!"
+            [legend]="option.data.legend!"
+          ></apx-chart>
+        } @else {
+          <p>No data available</p>
+        }   
+      </app-card>
+    </div>
+  }
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav1" class="mt-2"></div>
+</div>

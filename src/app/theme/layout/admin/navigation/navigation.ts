@@ -19,7 +19,7 @@ export interface NavigationItem {
 }
 
 export const NavigationItems: NavigationItem[] = [
-  {
+  /*{
     id: 'navigation',
     title: 'Navigation',
     type: 'group',
@@ -34,7 +34,7 @@ export const NavigationItems: NavigationItem[] = [
       }
     ]
   },
-  /*{
+  {
     id: 'requisition',
     title: 'Requisition',
     type: 'group',
@@ -81,6 +81,13 @@ export const NavigationItems: NavigationItem[] = [
         url: '/vehicle-records/master-record',
         icon: 'feather icon-save'
       },
+      /*{
+        id: 'testing-master-record',
+        title: 'Testing Master Record',
+        type: 'item',
+        url: '/vehicle-records/testing-master-record',
+        icon: 'feather icon-edit'
+      },*/
       {
         id: 'create-record',
         title: 'Create',
@@ -100,26 +107,28 @@ export const NavigationItems: NavigationItem[] = [
             url: '/vehicle-records/create-record/capture'
           }
         ]
+      }
+    ]
+  },
+  {
+    id: 'reporting',
+    title: 'Reporting',
+    type: 'group',
+    icon: 'icon-group',
+    children: [
+      {
+        id: 'fleet-size',
+        title: 'Fleet Size',
+        type: 'item',
+        icon: 'feather icon-trending-up',
+        url: '/reporting/fleet-size'
       },
       {
-        id: 'record-reporting',
-        title: 'Reporting',
-        type: 'collapse',
-        icon: 'feather icon-file-text',
-        children: [
-          {
-            id: 'size-reporting',
-            title: 'Size',
-            type: 'item',
-            url: '/vehicle-records/record-reporting/size-reporting'
-          },
-          {
-            id: 'spend-reporting',
-            title: 'Spend',
-            type: 'item',
-            url: '/vehicle-records/record-reporting/spend-reporting'
-          }
-        ]
+        id: 'fleet-spend',
+        title: 'Fleet Spend',
+        type: 'item',
+        icon: 'feather icon-credit-card',
+        url: '/reporting/fleet-spend'
       }
     ]
   },
