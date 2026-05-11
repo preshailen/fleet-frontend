@@ -5,6 +5,14 @@ import { lastValueFrom } from 'rxjs';
 import { ReportingService } from '../../../core/services/reporting.service';
 import { AlertService } from '../../../core/services/alert.service';
 
+interface ChartConfig {
+  key: string;
+  title: string;
+  originalData: any[];
+  selectedYear: number | null;
+  options: ApexOptions;
+}
+
 @Component({
   selector: 'app-fleet-size',
   imports: [SharedModule, NgApexchartsModule],
@@ -14,183 +22,148 @@ import { AlertService } from '../../../core/services/alert.service';
 export class FleetSize implements OnInit {
   reportingService = inject(ReportingService);
   alertService = inject(AlertService);
+  chartOptions = signal<ChartConfig[]>([]);
 
-  businessUnitOptions = signal<ApexOptions>(this.createBarOptions());
-  divisionDepotDepartmentOptions = signal<ApexOptions>(this.createBarOptions());
-  costCentreOptions = signal<ApexOptions>(this.createBarOptions());
-  managerOptions = signal<ApexOptions>(this.createBarOptions());
-  rateOptions = signal<ApexOptions>(this.createBarOptions());
-  makeOptions = signal<ApexOptions>(this.createBarOptions());
-  modelOptions = signal<ApexOptions>(this.createBarOptions());
-  yearOptions = signal<ApexOptions>(this.createBarOptions());
-  engineOptions = signal<ApexOptions>(this.createBarOptions());
-  provinceOptions = signal<ApexOptions>(this.createBarOptions());
-  areaOptions = signal<ApexOptions>(this.createBarOptions());
-  dealOptions = signal<ApexOptions>(this.createBarOptions());
-  supplierOptions = signal<ApexOptions>(this.createBarOptions());
-
-  optionsByYear = signal<{ id: string; data: ApexOptions }[]>([]);
-  optionsByMonth = signal<{ id: string; data: ApexOptions }[]>([]);
-
-  ngOnInit() {
-    this.loadChartsByYear();
-    this.loadChartsByMonth();
-  }
-  async loadChartsByYear() {
-    try {
-      const res = (await lastValueFrom(this.reportingService.getTotals('year')))[0];
-      this.businessUnitOptions.set(this.mapData(res.businessUnit, this.createBarOptions(), 'year'));
-      this.divisionDepotDepartmentOptions.set(this.mapData(res.divisionDepotDepartment, this.createBarOptions(), 'year'));
-      this.costCentreOptions.set(this.mapData(res.costCentre, this.createBarOptions(), 'year'));
-      this.managerOptions.set(this.mapData(res.responsibleManager, this.createBarOptions(), 'year'));
-      this.rateOptions.set(this.mapData(res.rateCategory, this.createBarOptions(), 'year'));
-      this.makeOptions.set(this.mapData(res.make, this.createBarOptions(), 'year'));
-      this.modelOptions.set(this.mapData(res.model, this.createBarOptions(), 'year'));
-      this.yearOptions.set(this.mapData(res.year, this.createBarOptions(), 'year'));
-      this.engineOptions.set(this.mapData(res.engineCapacity, this.createBarOptions(), 'year'));
-      this.provinceOptions.set(this.mapData(res.province, this.createBarOptions(), 'year'));
-      this.areaOptions.set(this.mapData(res.area, this.createBarOptions(), 'year'));
-      this.dealOptions.set(this.mapData(res.dealStatus, this.createBarOptions(), 'year'));
-      this.supplierOptions.set(this.mapData(res.supplierName, this.createBarOptions(), 'year'));
-      this.optionsByYear.set([
-        { id: 'Business Unit', data: this.businessUnitOptions() },
-        { id: 'Division/Depot/Department', data: this.divisionDepotDepartmentOptions() },
-        { id: 'Cost Centre', data: this.costCentreOptions() },
-        { id: 'Responsible Manager', data: this.managerOptions() },
-        { id: 'Rate Category', data: this.rateOptions() },
-        { id: 'Make', data: this.makeOptions() },
-        { id: 'Model', data: this.modelOptions() },
-        { id: 'Year', data: this.yearOptions() },
-        { id: 'Engine Capacity', data: this.engineOptions() },
-        { id: 'Province', data: this.provinceOptions() },
-        { id: 'Area', data: this.areaOptions() },
-        { id: 'Deal Status', data: this.dealOptions() },
-        { id: 'Supplier', data: this.supplierOptions() }
-      ]);
-    } catch(err) {
-      this.alertService.error('Error loading charts');
-    }
-  }
-  async loadChartsByMonth() {
-    try {
-      const res = (await lastValueFrom(this.reportingService.getTotals('month')))[0];
-      this.businessUnitOptions.set(this.mapData(res.businessUnit, this.createBarOptions(), 'month'));
-      this.divisionDepotDepartmentOptions.set(this.mapData(res.divisionDepotDepartment, this.createBarOptions(), 'month'));
-      this.costCentreOptions.set(this.mapData(res.costCentre, this.createBarOptions(), 'month'));
-      this.managerOptions.set(this.mapData(res.responsibleManager, this.createBarOptions(), 'month'));
-      this.rateOptions.set(this.mapData(res.rateCategory, this.createBarOptions(), 'month'));
-      this.makeOptions.set(this.mapData(res.make, this.createBarOptions(), 'month'));
-      this.modelOptions.set(this.mapData(res.model, this.createBarOptions(), 'month'));
-      this.yearOptions.set(this.mapData(res.year, this.createBarOptions(), 'month'));
-      this.engineOptions.set(this.mapData(res.engineCapacity, this.createBarOptions(), 'month'));
-      this.provinceOptions.set(this.mapData(res.province, this.createBarOptions(), 'month'));
-      this.areaOptions.set(this.mapData(res.area, this.createBarOptions(), 'month'));
-      this.dealOptions.set(this.mapData(res.dealStatus, this.createBarOptions(), 'month'));
-      this.supplierOptions.set(this.mapData(res.supplierName, this.createBarOptions(), 'month'));
-      this.optionsByMonth.set([
-        { id: 'Business Unit', data: this.businessUnitOptions() },
-        { id: 'Division/Depot/Department', data: this.divisionDepotDepartmentOptions() },
-        { id: 'Cost Centre', data: this.costCentreOptions() },
-        { id: 'Responsible Manager', data: this.managerOptions() },
-        { id: 'Rate Category', data: this.rateOptions() },
-        { id: 'Make', data: this.makeOptions() },
-        { id: 'Model', data: this.modelOptions() },
-        { id: 'Year', data: this.yearOptions() },
-        { id: 'Engine Capacity', data: this.engineOptions() },
-        { id: 'Province', data: this.provinceOptions() },
-        { id: 'Area', data: this.areaOptions() },
-        { id: 'Deal Status', data: this.dealOptions() },
-        { id: 'Supplier', data: this.supplierOptions() }
-      ]);
-    } catch(err) {
-      this.alertService.error('Error loading charts');
-    }
-  }
-  mapData(data: any, options: ApexOptions, period: 'year' | 'month'): ApexOptions {
-    const isMonth = period === 'month';
-    const units = [...new Set(data.map((d: any) => d.group))];
-    const categories = [
-  ...new Map(
-    data.map((d: any) => {
-      const key = isMonth
-        ? `${d.year}-${d.month}`
-        : `${d.year}`;
-
-      return [key, d];
-    })
-  ).keys()
-];
-
-categories.sort((a: any, b: any) => {
-  if (isMonth) {
-    const [ay, am] = a.split('-').map(Number);
-    const [by, bm] = b.split('-').map(Number);
-    return ay !== by ? ay - by : am - bm;
-  }
-  return Number(a) - Number(b);
-});
-    const series: ApexAxisChartSeries = units.map(unit => ({
-      name: unit as string,
-      data: categories.map((cat: any) => {
-        const found = data.find((d: any) => {
-          if (isMonth) {
-            return `${d.year}-${d.month}` === cat && d.group === unit;
-          }
-          return d.year === Number(cat) && d.group === unit;
-        });
-        return found ? found.total : 0;
-      })
+  async ngOnInit() {
+    const res = (await lastValueFrom(this.reportingService.getTotals()))[0];
+    const chartConfigs: ChartConfig[] = Object.entries(res)
+    .map(([key, value]: any) => ({
+      key,
+      title: this.formatTitle(key),
+      originalData: value,
+      selectedYear: null,
+      options: this.mapYearData(value, key)
     }));
 
-    return {...options, series, xaxis: { categories } };
+    this.chartOptions.set(chartConfigs);
   }
-  createBarOptions(): ApexOptions {
+  
+  formatTitle(key: string): string {
+    return key
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, c => c.toUpperCase());
+  }
+
+  mapYearData(data: any[], chartKey: string): ApexOptions {
+    const years: number[] = [...new Set(data.map(d => Number(d.year)))].sort((a, b) => a - b);
+    const groups: string[] = [...new Set(data.map(d => String(d.group).trim()))].sort((a: any, b: any) => a - b);
+
     return {
       chart: {
-        height: 350,
         type: 'bar',
-        stacked: true,
-        stackType: 'normal'
-      },
-      colors: [
-        '#4099ff',
-        '#ffb64d',
-        '#ff5370',
-        '#2ed8b6',
-        '#0e9e4a',
-        '#7759de',
-        '#00bcd4',
-        '#748892',
-        '#d6d6d6',
-        '#eceff1',
-        '#263238'
-      ],
-      stroke: {
-        width: 1,
-        colors: ['#fff']
-      },
-      series: [],
-      xaxis: {
-        categories: []
-      },
-      tooltip: {
-        y: {
-          formatter: (val: number): string => {
-            if (val >= 1000) {
-              return (val / 1000).toFixed(1) + 'K';
-            }
-            return val.toString();
+
+        events: {
+          dataPointSelection: (_e, _ctx, config) => {
+            const selectedYear = years[config.dataPointIndex];
+            this.openMonthView(chartKey, selectedYear);
           }
         }
       },
-      fill: {
-        opacity: 1
+      xaxis: {
+        categories: years
       },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'left',
-        offsetX: 40
-      }
+
+      series: groups.map(group => ({
+        name: group,
+        data: years.map(year => {
+          return data
+            .filter(d => String(d.group).trim() === group && Number(d.year) === year)
+            .reduce((sum, item) => sum + item.total, 0);
+        })
+      }))
     };
   }
+
+  mapMonthData(
+  data: any[],
+  selectedYear: number
+): ApexOptions {
+
+  const months = [
+    'Jan', 'Feb', 'Mar', 'Apr',
+    'May', 'Jun', 'Jul', 'Aug',
+    'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+
+  const groups: string[] = [...new Set(
+    data.map(d => String(d.group).trim())
+  )];
+
+  return {
+    chart: {
+      type: 'bar'
+    },
+
+    title: {
+      text: `${selectedYear} Monthly Breakdown`
+    },
+
+    xaxis: {
+      categories: months
+    },
+
+    series: groups.map(group => ({
+      name: group,
+
+      data: months.map((_, index) => {
+
+        const monthNumber = index + 1;
+
+        return data
+          .filter(d =>
+            String(d.group).trim() === group &&
+            Number(d.year) === selectedYear &&
+            Number(d.month) === monthNumber
+          )
+          .reduce(
+            (sum, item) => sum + item.total,
+            0
+          );
+      })
+    }))
+  };
+}
+
+  openMonthView(chartKey: string, year: number) {
+
+  this.chartOptions.update(charts =>
+    charts.map(chart => {
+
+      if (chart.key !== chartKey) {
+        return chart;
+      }
+
+      return {
+        ...chart,
+        selectedYear: year,
+        options: this.mapMonthData(
+          chart.originalData,
+          year
+        )
+      };
+    })
+  );
+}
+
+  goBack(chartKey: string) {
+
+  this.chartOptions.update(charts =>
+    charts.map(chart => {
+
+      if (chart.key !== chartKey) {
+        return chart;
+      }
+
+      return {
+        ...chart,
+        selectedYear: null,
+        options: this.mapYearData(
+          chart.originalData,
+          chart.key
+        )
+      };
+    })
+  );
+}
+
 }
