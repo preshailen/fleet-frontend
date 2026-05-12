@@ -12,4 +12,8 @@ export class ReportingService {
   getTotals() {
     return this.http.get<any>(`${this.apiUrl}/get-totals`);
   }
+
+  getCumulativeTotals() {
+    return this.http.get<any>(`${this.apiUrl}/get-cumulative-totals`);
+  }
 }

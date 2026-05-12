@@ -1,35 +1,45 @@
 <div class="grid grid-cols-1 gap-6">
-
-  @for (chart of chartOptions(); track chart.key) {
-
+  @for (chart of chartsPerYearAndMonthsOptions(); track chart.key) {
     <div class="card p-4">
-
       <div class="flex justify-between items-center mb-4">
-
         <h2 class="text-lg font-semibold">
           {{ chart.title }}
         </h2>
-
         @if (chart.selectedYear) {
-          <button
-            class="btn btn-primary"
-            (click)="goBack(chart.key)"
-          >
-            Back
-          </button>
+          <button class="btn btn-primary" (click)="goBack(chart.key)"><i class="feather icon-arrow-left"></i> Back</button>
+        } @else {
+          <p>Click a bar to view monthly breakdown</p>
         }
-
       </div>
-
       <apx-chart
         [series]="chart.options.series!"
+        [chart]="chart.options.chart!"
+        [xaxis]="chart.options.xaxis!"
+        [yaxis]="chart.options.yaxis!"
+        [title]="chart.options.title!"
+      >
+      </apx-chart>
+    </div>
+  }
+</div>
+
+
+<div class="grid grid-cols-1 gap-6">
+  @for (chart of chartsCumulativeOptions(); track chart.key) {
+    <div class="card p-4">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">
+          Top 20 {{ chart.title }}
+        </h2>
+      </div>
+      <apx-chart
+        [series]="chart.options.series!"
+        [plotOptions]="chart.options.plotOptions!"
         [chart]="chart.options.chart!"
         [xaxis]="chart.options.xaxis!"
         [title]="chart.options.title!"
       >
       </apx-chart>
-
     </div>
   }
-
 </div>

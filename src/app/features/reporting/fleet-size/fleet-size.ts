@@ -22,9 +22,14 @@ interface ChartConfig {
 export class FleetSize implements OnInit {
   reportingService = inject(ReportingService);
   alertService = inject(AlertService);
-  chartOptions = signal<ChartConfig[]>([]);
+  chartsPerYearAndMonthsOptions = signal<ChartConfig[]>([]);
+  chartsCumulativeOptions = signal<ChartConfig[]>([]);
 
   async ngOnInit() {
+    this.configurePerYearAndMonth();
+    this.configureCumulative();
+  }
+  async configurePerYearAndMonth() {
     const res = (await lastValueFrom(this.reportingService.getTotals()))[0];
     const chartConfigs: ChartConfig[] = Object.entries(res)
     .map(([key, value]: any) => ({
@@ -35,7 +40,20 @@ export class FleetSize implements OnInit {
       options: this.mapYearData(value, key)
     }));
 
-    this.chartOptions.set(chartConfigs);
+    this.chartsPerYearAndMonthsOptions.set(chartConfigs);
+  }
+  async configureCumulative() {
+    const res = (await lastValueFrom(this.reportingService.getCumulativeTotals()))[0];
+    console.log(res);
+    const chartConfigs: ChartConfig[] = Object.entries(res)
+    .map(([key, value]: any) => ({
+      key,
+      title: this.formatTitle(key),
+      originalData: value,
+      selectedYear: null,
+      options: this.mapCumulativeData(value)
+    }));
+    this.chartsCumulativeOptions.set(chartConfigs);
   }
   
   formatTitle(key: string): string {
@@ -46,12 +64,11 @@ export class FleetSize implements OnInit {
 
   mapYearData(data: any[], chartKey: string): ApexOptions {
     const years: number[] = [...new Set(data.map(d => Number(d.year)))].sort((a, b) => a - b);
-    const groups: string[] = [...new Set(data.map(d => String(d.group).trim()))].sort((a: any, b: any) => a - b);
+    const groups: string[] = [...new Set(data.map(d => String(d.group).trim()))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
 
     return {
       chart: {
         type: 'bar',
-
         events: {
           dataPointSelection: (_e, _ctx, config) => {
             const selectedYear = years[config.dataPointIndex];
@@ -60,9 +77,16 @@ export class FleetSize implements OnInit {
         }
       },
       xaxis: {
+        title: { text: 'Year' },
         categories: years
       },
-
+      yaxis: [
+        {
+          title: {
+            text: 'Vehicles'
+          }
+        }
+      ],
       series: groups.map(group => ({
         name: group,
         data: years.map(year => {
@@ -85,23 +109,27 @@ export class FleetSize implements OnInit {
     'Sep', 'Oct', 'Nov', 'Dec'
   ];
 
-  const groups: string[] = [...new Set(
-    data.map(d => String(d.group).trim())
-  )];
+  const groups: string[] = [...new Set(data.map(d => String(d.group).trim()))].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+
 
   return {
     chart: {
       type: 'bar'
     },
-
     title: {
       text: `${selectedYear} Monthly Breakdown`
     },
-
     xaxis: {
+      title: { text: 'Month' },
       categories: months
     },
-
+    yaxis: [
+      {
+        title: {
+          text: 'Vehicles'
+        }
+      }
+    ],
     series: groups.map(group => ({
       name: group,
 
@@ -126,7 +154,7 @@ export class FleetSize implements OnInit {
 
   openMonthView(chartKey: string, year: number) {
 
-  this.chartOptions.update(charts =>
+  this.chartsPerYearAndMonthsOptions.update(charts =>
     charts.map(chart => {
 
       if (chart.key !== chartKey) {
@@ -147,7 +175,7 @@ export class FleetSize implements OnInit {
 
   goBack(chartKey: string) {
 
-  this.chartOptions.update(charts =>
+  this.chartsPerYearAndMonthsOptions.update(charts =>
     charts.map(chart => {
 
       if (chart.key !== chartKey) {
@@ -165,5 +193,33 @@ export class FleetSize implements OnInit {
     })
   );
 }
+  mapCumulativeData(data: any[]): ApexOptions {
+    const sortedData = [...data].sort((a, b) => b.cumulativeTotal - a.cumulativeTotal);
+    return {
+      chart: {
+        type: 'bar',
+        height: 600,
+        toolbar: {
+          show: true
+        }
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          distributed: true
+        }
+      },
+      xaxis: {
+        title: { text: `Cumulative Total for the year until ${sortedData[0]?.lastDate ?? ''}` },
+        categories: sortedData.map(d => String(d.group).trim())
+      },
+      series: [
+        {
+          name: 'Vehicles',
+          data: sortedData.map(d => d.cumulativeTotal)
+        }
+      ]
+    };
+  }
 
 }
