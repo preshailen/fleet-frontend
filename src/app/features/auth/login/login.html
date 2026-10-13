@@ -1,0 +1,54 @@
+<div class="auth-wrapper">
+  <div class="auth-content">
+    <div class="card">
+      <div class="row align-items-center text-center">
+        <div class="col-md-12">
+          <div class="card-body">
+            <form (ngSubmit)="onSubmit($event)">
+              <h4 class="mb-3 f-w-400">Login</h4>
+              <div class="input-group mb-3">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  [class.is-invalid]="helperService.isInvalid(loginForm.email, submitted)"
+                  [class.is-valid]="helperService.isValid(loginForm.email, submitted)"
+                  placeholder="Enter Email Address"
+                  [field]="loginForm.email"
+                />
+                @if (loginForm.email().invalid() && helperService.isFieldTouchedOrSubmitted(loginForm.email, submitted)) {
+                  <div class="invalid-feedback">
+                    @for (error of loginForm.email().errors(); track error.kind) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
+              </div>
+              <div class="input-group mb-4">
+                <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    [class.is-invalid]="helperService.isInvalid(loginForm.password, submitted)"
+                    [class.is-valid]="helperService.isValid(loginForm.password, submitted)"
+                    placeholder="Enter Password"
+                    [field]="loginForm.password"
+                  />
+                @if (loginForm.password().invalid() && helperService.isFieldTouchedOrSubmitted(loginForm.password, submitted)) {
+                  <div class="invalid-feedback">
+                    @for (error of loginForm.password().errors(); track error.kind) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-block btn-primary mb-4">Login <i class="feather icon-log-in"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

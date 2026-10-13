@@ -1,0 +1,15 @@
+
+.wrapper1, .wrapper2 {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.div1 {
+  height: 1px;
+}
+
+.div2 {
+  display: inline-block;
+  min-width: 100%;
+}

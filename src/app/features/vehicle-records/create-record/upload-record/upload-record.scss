@@ -1,0 +1,44 @@
+.drop-zone {
+  border: 2px dashed #4a90e2;
+  border-radius: 12px;
+  padding: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #f0f6ff;
+}
+
+.drop-zone:hover {
+  background: #e6f0ff;
+  border-color: #357abd;
+}
+.drop-zone.is-invalid:hover {
+  border-color: #bb2d3b;
+}
+
+.drop-zone.is-valid:hover {
+  border-color: #146c43;
+}
+
+.drop-zone.dragover {
+  background: #dce9ff;
+  border-color: #2c6cd1;
+}
+
+.drop-zone.is-invalid {
+  border-color: #dc3545; /* Bootstrap danger */
+  background-color: #f8d7da;
+}
+
+.drop-zone.is-valid {
+  border-color: #198754; /* Bootstrap success */
+  background-color: #d1e7dd;
+}
+
+.upload {
+  margin-top: 1rem;
+  text-wrap: none;
+}
+
+.file {
+  color: #198754;
+}

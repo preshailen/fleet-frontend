@@ -1,0 +1,106 @@
+<div class="card-body centre-text">
+  <h6><b>Compliance and Registration Information</b></h6>
+  <hr />
+  <form class="p-4">
+    <div class="row">
+      <b>Insurance Required?</b>
+      <div class="col-3"></div>
+      <div class="col-3">
+        <label for="customControlValidation12"><b>
+          <input type="radio" value="true" [field]="complianceForm().insurance" id="customControlValidation12" />
+          Yes</b>
+        </label>
+      </div>
+      <div class="col-3">
+        <label for="customControlValidation13"><b>
+          <input type="radio" value="false" [field]="complianceForm().insurance" id="customControlValidation13" />
+          No</b>
+        </label>
+      </div>
+      <div class="col-3"></div>
+      @if (complianceForm().insurance().invalid() && (helperService.isFieldTouchedOrSubmitted(complianceForm().insurance, submitted))) {
+        <div class="full-width">
+          @for (error of complianceForm().insurance().errors(); track error.kind) {
+            <div class="error">{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="row">
+      <b>Vehicle Tracking Required?</b>
+      <div class="col-3"></div>
+      <div class="col-3">
+        <label for="customControlValidation14"><b>
+          <input type="radio" value="true" [field]="complianceForm().vehicleTracking" id="customControlValidation14" />
+          Yes</b>
+        </label>
+      </div>
+      <div class="col-3">
+        <label for="customControlValidation15"><b>
+          <input type="radio" value="false" [field]="complianceForm().vehicleTracking" id="customControlValidation15" />
+          No</b>
+        </label>
+      </div>
+      <div class="col-3"></div>
+      @if (complianceForm().vehicleTracking().invalid() && (helperService.isFieldTouchedOrSubmitted(complianceForm().vehicleTracking, submitted))) {
+        <div class="full-width">
+          @for (error of complianceForm().vehicleTracking().errors(); track error.kind) {
+            <div class="error">{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="row">
+      <b>Roadworthy Required?</b>
+      <div class="col-3"></div>
+      <div class="col-3">
+        <label for="customControlValidation16"><b>
+          <input type="radio" value="true" [field]="complianceForm().roadworthy" id="customControlValidation16" />
+          Yes</b>
+        </label>
+      </div>
+      <div class="col-3">
+        <label for="customControlValidation17"><b>
+          <input type="radio" value="false" [field]="complianceForm().roadworthy" id="customControlValidation17" />
+          No</b>
+        </label>
+      </div>
+      <div class="col-3"></div>
+      @if (complianceForm().roadworthy().invalid() && (helperService.isFieldTouchedOrSubmitted(complianceForm().roadworthy, submitted))) {
+        <div class="full-width">
+          @for (error of complianceForm().roadworthy().errors(); track error.kind) {
+            <div class="error">{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="row">
+      <b>Licensing and Registration Required?</b>
+      <div class="col-3"></div>
+      <div class="col-3">
+        <label for="customControlValidation18"><b>
+          <input type="radio" value="true" [field]="complianceForm().licensingAndRegistration" id="customControlValidation18" />
+          Yes</b>
+        </label>
+      </div>
+      <div class="col-3">
+        <label for="customControlValidation19"><b>
+          <input type="radio" value="false" [field]="complianceForm().licensingAndRegistration" id="customControlValidation19" />
+          No</b>
+        </label>
+      </div>
+      <div class="col-3"></div>
+      @if (complianceForm().licensingAndRegistration().invalid() && (helperService.isFieldTouchedOrSubmitted(complianceForm().licensingAndRegistration, submitted))) {
+        <div class="full-width">
+          @for (error of complianceForm().licensingAndRegistration().errors(); track error.kind) {
+            <div class="error">{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+  </form>
+  <div class="button-row">
+    <button type="button" class="btn btn-primary mb-4" (click)="previous()"><i class="feather icon-arrow-left"></i> Previous</button>
+    <button type="button" class="btn btn-success mb-4" (click)="create()">Create <i class="feather icon-plus"></i></button>
+  </div>
+</div>

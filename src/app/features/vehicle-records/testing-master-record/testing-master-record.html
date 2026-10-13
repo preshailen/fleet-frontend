@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card>
+      <h3>Master Record</h3>
+      <hr />
+      <div class="controls">
+          <form class="row row-cols-md-auto g-3 align-items-center">
+            <div class="form-group d-flex align-items-center gap-2">
+              <label for="limit" class="mb-0">Limit:</label>
+              <select [value]="query().limit" (change)="onLimit($event)" style="min-width: 90px;" class="form-control w-auto pe-2" id="limit">
+                @for (opt of limit_values(); track opt) {
+                  <option [value]="opt" [selected]="opt === query().limit.toString()">{{ opt }}</option>
+                }
+              </select>
+            </div>
+            <div class="form-group d-flex align-items-center gap-2">
+              <label for="search" class="mb-0">Search: </label>
+              <input (change)="onSearch($event)" style="min-width: 90px;" class="form-control w-auto pe-2" id="search" />
+            </div>
+            <div class="form-group d-flex align-items-center gap-2">
+              <label for="sort" class="mb-0">Sort: </label>
+              <select [value]="query().sort" (change)="onSort($event)" style="min-width: 90px;" class="form-control w-auto pe-2" id="sort">
+                @for (opt of sort_values(); track opt.key) {
+                  <option [value]="opt.key" [selected]="opt.key === query().sort">{{ opt.label }}</option>
+                }
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="controls">
+          <nav>
+            <ul class="pagination justify-content-center">
+              <li class="page-item" [class.disabled]="query().page === 1">
+                <a class="page-link" (click)="prevPage()" style="cursor: pointer;"><span aria-hidden="true">&laquo;</span></a>
+              </li>
+              @for (p of pages(); track p) {
+                <li class="page-item" [class.active]="query().page === p">
+                  <a class="page-link" (click)="changePage(p)" style="cursor: pointer;">{{ p }}</a>
+                </li>
+              }      
+              <li class="page-item" [class.disabled]="query().page === meta().pages">
+                <a class="page-link" (click)="nextPage()" style="cursor: pointer;"><span aria-hidden="true">&raquo;</span></a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      <app-double-scroll>
+        <div class="table-responsive">
+          <table class="table table-striped" >
+            <thead>
+              <tr>
+                @for (col of columns; track col.key) {
+                  <th>{{ col.label }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of records(); track item._id) {
+                <tr>
+                  @for (col of columns; track col.key) {
+                    <td>
+                      {{ formatValue(item[col.key], col.format) }}
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </app-double-scroll>
+      @if (records().length < 1) {
+        <div class="controls">
+          <p><b>No items found</b></p>
+        </div>
+      }
+    </app-card>
+  </div>
+</div>

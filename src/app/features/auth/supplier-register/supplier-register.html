@@ -1,0 +1,58 @@
+<div class="auth-wrapper">
+  <div class="auth-content">
+    <div class="card">
+      <div class="row align-items-center text-center">
+        <div class="col-md-12">
+          <div class="card-body">
+            <form (ngSubmit)="onSubmit($event)">
+              <h4 class="mb-3 f-w-400">Register Supplier</h4>
+              <div class="input-group mb-3">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  [class.is-invalid]="helperService.isInvalid(registerForm.email, submitted)"
+                  [class.is-valid]="helperService.isValid(registerForm.email, submitted)"
+                  placeholder="Enter Email Address"
+                  [field]="registerForm.email"
+                />   
+                @if (registerForm.email().invalid() && helperService.isFieldTouchedOrSubmitted(registerForm.email, submitted)) {
+                  <div class="invalid-feedback">
+                    @for (error of registerForm.email().errors(); track error.kind) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
+              </div>
+              <div class="input-group mb-4">
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  [class.is-invalid]="helperService.isInvalid(registerForm.password, submitted)"
+                  [class.is-valid]="helperService.isValid(registerForm.password, submitted)"
+                  placeholder="Enter Password (min. 12 characters)"
+                  [field]="registerForm.password"
+                />
+                @if (registerForm.password().invalid() && helperService.isFieldTouchedOrSubmitted(registerForm.password, submitted)) {
+                  <div class="invalid-feedback">
+                    @for (error of registerForm.password().errors(); track error.kind) {
+                      <div>{{ error.message }}</div>
+                    }
+                  </div>
+                }
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-block mb-4">Register <i class="feather icon-edit"></i></button>
+              </div>
+            </form>
+            <p class="mb-2">
+              Already have an account?
+              <a [routerLink]="['/auth/login']" class="f-w-400">Signin</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

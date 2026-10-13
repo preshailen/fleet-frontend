@@ -1,0 +1,34 @@
+/* Invalid state */
+ng-select.is-invalid .ng-select-container {
+  border: 1px solid #ff5370 !important;
+  border-radius: 0.25rem;
+}
+
+/* Valid state */
+ng-select.is-valid .ng-select-container {
+  border: 1px solid #2ed8b6 !important;
+  border-radius: 0.25rem;
+}
+
+/* Focused invalid */
+ng-select.is-invalid.ng-select-focused .ng-select-container {
+  box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+}
+
+/* Focused valid */
+ng-select.is-valid.ng-select-focused .ng-select-container {
+  box-shadow: 0 0 0 0.2rem rgba(25,135,84,.25);
+}
+
+.ng-dropdown-panel .ng-option {
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+
+.ng-select .ng-select-container {
+  text-align: left !important;
+}
+
+.ng-select {
+  width: 100%;
+}

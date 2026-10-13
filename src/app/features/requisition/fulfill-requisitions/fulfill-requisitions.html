@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card>
+      <h3>Fulfill Requisition</h3>
+      <hr />
+      <div class="row">
+        <div class="col-md-12">
+          @if (!id()) {
+            <app-requisition-table [filters]="filters()" [action]="action()" (doActionOutput)="fulfill($event)"></app-requisition-table>
+          } @else {
+            @if (!createMode()) {
+              <form (ngSubmit)="onSubmit($event)">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Quote</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (quote of quotes(); track $index) {
+                        <tr>
+                          <td>
+                            {{ quote.pdf.file?.name }}
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-warning"(click)="viewQuote(quote.pdf.file)">View Quote <i class="feather icon-eye"></i></button>
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-danger"(click)="deleteQuote($index)">Delete Quote <i class="feather icon-x"></i></button>
+                          </td>
+                        </tr>
+                      } @empty {
+                        <tr><td colspan="3"><p>No quotes added yet</p></td></tr>
+                      }
+                      @if((quotes.length < 3) && submitAttempt()) {
+                        <tr><td colspan="3"><p class="text-danger">A minimum of 3 quotes are required!</p></td></tr>
+                      }
+                      <div class="invalid-feedback">File is required!</div>
+                    </tbody>
+                  </table>
+                  <div class="button">
+                    <button type="button" class="btn btn-success" (click)="createQuote()">Add Quote<i class="feather icon-plus"></i></button>
+                  </div>
+                </div>
+                <div class="button-row">
+                  <button type="button" class="btn btn-danger"(click)="cancel()">Cancel <i class="feather icon-x"></i></button>
+                  <button type="submit" class="btn btn-success">Fulfill Requisition <i class="feather icon-package"></i></button>
+                </div>
+              </form>
+            } @else {
+              <app-create-quote [id]="id()" [names]="names()" (newQuote)="addQuote($event)" (cancel)="exitQuote($event)"></app-create-quote>
+            }
+          }
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

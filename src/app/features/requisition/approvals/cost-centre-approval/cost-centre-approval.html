@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card>
+      <h3>Cost Centre Approval</h3>
+      <hr />
+      <div class="row">
+        <div class="col-md-12">
+          @if (!id()) {
+            <app-requisition-table [filters]="filters()" [action]="action()" (doActionOutput)="viewQuotes($event)"></app-requisition-table>
+          } @else {
+            <app-quote-table [id]="id()" [status]="status()" (action)="cancel()"></app-quote-table>
+          }
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

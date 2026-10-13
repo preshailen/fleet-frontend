@@ -1,0 +1,29 @@
+<div class="card-body centre-text">
+  <h6><b>Purpose</b></h6>
+  <hr />
+  <form class="p-4">
+    <div class="row">
+      <div class="col-6">
+        <label for="customControlValidation2"><b>
+          <input type="radio" value="New Vehicle" [field]="purposeForm().purpose" id="customControlValidation2" />
+          New Vehicle</b>
+        </label>
+      </div>
+      <div class="col-6">
+        <label for="customControlValidation3"><b>
+          <input type="radio" value="Second Hand Vehicle" [field]="purposeForm().purpose" id="customControlValidation3" />
+          Second Hand Vehicle</b>
+        </label>
+      </div>
+      @if (purposeForm().purpose().invalid() && (helperService.isFieldTouchedOrSubmitted(purposeForm().purpose, submitted))) {
+        <div class="full-width">
+          @for (error of purposeForm().purpose().errors(); track error.kind) {
+            <div class="error">{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+    
+  </form>
+  <app-button-controls (goBack)="previous()" (goForward)="next()"></app-button-controls>
+</div>

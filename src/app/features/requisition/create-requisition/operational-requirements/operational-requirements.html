@@ -1,0 +1,32 @@
+<div class="card-body centre-text">
+  <h6><b>Operational Requirements</b></h6>
+  <hr />
+  <form>
+    <div class="form-group row-layout">
+      <label for="estimatedMonthlyKms" class="form-label">Estimated Monthly Kms:</label>
+      <div class="input-wrapper">
+        <div class="input-group">
+          <input
+            type="number"
+            (keydown)="helperService.blockInvalid($event)"
+            class="form-control"
+            id="estimatedMonthlyKms"
+            [class.is-invalid]="helperService.isInvalid(requirementsForm().estimatedMonthlyKms, submitted)"
+            [class.is-valid]="helperService.isValid(requirementsForm().estimatedMonthlyKms, submitted)"
+            placeholder="Enter Estimated Monthly Kms"
+            [field]="requirementsForm().estimatedMonthlyKms"
+          />
+          <span class="input-group-text">KMs</span>
+        </div>
+      </div>
+      @if (requirementsForm().estimatedMonthlyKms().invalid() && (helperService.isFieldTouchedOrSubmitted(requirementsForm().estimatedMonthlyKms, submitted))) {
+        <div class="invalid-feedback full-width">
+          @for (error of requirementsForm().estimatedMonthlyKms().errors(); track error.kind) {
+            <div>{{ error.message }}</div>
+          }
+        </div>
+      }
+    </div>
+  </form>
+  <app-button-controls (goBack)="previous()" (goForward)="next()"></app-button-controls>
+</div>
